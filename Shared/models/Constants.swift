@@ -9,5 +9,6 @@ import Foundation
 
 
 public struct Constants{
-   static let degree = "°"
+    static let degree = "°"
+    static let locationDesc = ""
 }

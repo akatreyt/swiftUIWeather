@@ -19,9 +19,8 @@ protocol LocationManagable : ObservableObject{
 
 class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
     @Published var currentWeather : Forecast?
-    @Published var locationDesc : String = LocationManager.locationDescPlaceholder
+    @Published var locationDesc : String = Constants.locationDesc
     
-    private static let locationDescPlaceholder = ""
 
         
     private let locationManager = CLLocationManager()
@@ -60,7 +59,7 @@ class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
                 print("Failed getting zip code: \(error)")
-                self.locationDesc = LocationManager.locationDescPlaceholder
+                self.locationDesc = Constants.locationDesc
             }
             if let postalCode = placemarks?.first?.postalCode,
                let state = placemarks?.first?.administrativeArea,
@@ -68,7 +67,7 @@ class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
                 self.locationDesc = locality + "," + state + " - " + postalCode
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
-                self.locationDesc = LocationManager.locationDescPlaceholder
+                self.locationDesc = Constants.locationDesc
             }
         }
     }
@@ -91,6 +90,6 @@ public class MockLocationLayer : LocationManagable{
 
 public class MockEmptyLocationData : LocationManagable{
     required public init(){}
-    var locationDesc: String = ""
+    var locationDesc: String = Constants.locationDesc
     var currentWeather: Forecast?
 }
