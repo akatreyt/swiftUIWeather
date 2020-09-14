@@ -12,16 +12,13 @@ import CoreLocation
 
 public typealias WeatherReturn = Result<Forecast, Error>
 
-struct MyNetwork{
-    static let fetch : NetworkFetchable.Type = NetworkFetch.self
-}
-
 protocol NetworkFetchable {
+    init()
     func fetchCurrentWeather(forLocation location:CLLocation, completion: @escaping (WeatherReturn) -> Void)
 }
 
 public class NetworkFetch : NetworkFetchable{
-    public init(){}
+    required public init(){}
     
     let nws = NationalWeatherService(userAgent: "(MyWeatherApp, mycontact@example.com)")
     

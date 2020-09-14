@@ -15,10 +15,9 @@ extension Forecast.Period : Identifiable{
     }
 }
 
-struct ContentView<DataLayerGeneric>: View where DataLayerGeneric:DataLayer {
-    
-    @ObservedObject var dataLayer : DataLayerGeneric
+struct ContentView<LocationGeneric>: View where LocationGeneric:LocationManagable{
     @State private var showSettings = false
+    @ObservedObject public var lm : LocationGeneric
     
     var body: some View {
         ZStack {
@@ -29,9 +28,9 @@ struct ContentView<DataLayerGeneric>: View where DataLayerGeneric:DataLayer {
                 TopView(settingsAction: {
                     self.showSettings.toggle()
                 },
-                locationString: dataLayer.currentZipCode ?? "")
+                locationString: lm.locationDesc)
                 
-                if let _weather = dataLayer.currentWeather,
+                if let _weather = lm.currentWeather,
                    _weather.periods.count > 0{
                     HeaderView(period: _weather.periods.first!)
                     
@@ -53,13 +52,13 @@ struct ContentView<DataLayerGeneric>: View where DataLayerGeneric:DataLayer {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            let cvLight = ContentView(dataLayer: MockDataLayer())
+            let cvLight = ContentView(lm: MockLocationLayer())
             cvLight.environment(\.colorScheme, .light)
 
-            let cvDark = ContentView(dataLayer: MockDataLayer())
+            let cvDark = ContentView(lm: MockLocationLayer())
             cvDark.environment(\.colorScheme, .dark)
 
-            let cvNodata = ContentView(dataLayer: MockEmptyWeatherDataLayer())
+            let cvNodata = ContentView(lm: MockEmptyLocationData())
             cvNodata.environment(\.colorScheme, .dark)
         }
     }
