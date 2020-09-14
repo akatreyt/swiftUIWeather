@@ -7,18 +7,26 @@
 
 import Foundation
 import CoreLocation
+import NationalWeatherService
 
 protocol DataLayer : ObservableObject {
-    var currentWeather : WeatherData? { get }
+    var currentWeather : Forecast? { get }
+    var currentZipCode : String? {get}
 }
 
 public class RealDataLayer : DataLayer, LocationManagerDelegate {
     private var lm = LocationManager()
     private let network = NetworkFetch()
-    @Published public var currentWeather : WeatherData?
+    
+    @Published public var currentWeather : Forecast?
+    @Published public var currentZipCode : String?
+    
     
     public init(){
         lm.delegate = self
+        lm.zipCodeCompletion = { (newZipCode:String?) in
+            self.currentZipCode = newZipCode ?? "?"
+        }
     }
     
     private func updateWeather(){
@@ -44,16 +52,19 @@ extension RealDataLayer{
 }
 
 public class MockDataLayer : DataLayer{
-    var currentWeather: WeatherData? =  MockDataLayer.createMockWeather()
+    var currentZipCode: String? = "77445"
     
-    private static func createMockWeather()->WeatherData{
+    var currentWeather: Forecast? =  MockDataLayer.createMockWeather()
+    
+    private static func createMockWeather()->Forecast{
         let path = Bundle.main.path(forResource: "Sample", ofType: "json")!
         let data = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-        let weather: WeatherData = try! JSONDecoder().decode(WeatherData.self, from: data)
+        let weather: Forecast = try! JSONDecoder().decode(Forecast.self, from: data)
         return weather
     }
 }
 
 public class MockEmptyWeatherDataLayer : DataLayer{
-    var currentWeather: WeatherData?
+    var currentZipCode: String?
+    var currentWeather: Forecast?
 }

@@ -6,25 +6,29 @@
 //
 
 import Foundation
+import NationalWeatherService
 
 protocol RowFormattable {
-    static func degreeToString(fromForecast forecast: Forecast, forTemp temp : TempType)->String
+    static func degreeToString(fromPeriod period: Forecast.Period, forTemp temp : TempType)->String
 }
 
 public class RowFormatter:RowFormattable{
-    private static func toCelcius(fromTemp temp:Int)->Double{
-        var celsius: Double
-        celsius = (Double(temp - 32)) * 5 / 9
-        return celsius
+    private static func convert(temp tmp:Double, to returnType:TempType)->Double{
+        switch returnType {
+        case .Fahrenheit:
+            return tmp * 9 / 5 + 32
+        case .Celcius:
+            return (Double(tmp - 32)) * 5 / 9
+        }
     }
     
-    public static func degreeToString(fromForecast forecast: Forecast, forTemp temp : TempType)->String{
+    public static func degreeToString(fromPeriod period: Forecast.Period, forTemp temp : TempType)->String{
         switch temp {
         case .Fahrenheit:
-            return String(format: "%.0f", Float(forecast.temperature)) + Constants.degree + "F"
+            let cel = String(format: "%.0f", RowFormatter.convert(temp: period.temperature.value, to: .Fahrenheit))
+            return "\(cel)"  + Constants.degree + "F"
         case .Celcius:
-            let cel = String(format: "%.0f", RowFormatter.toCelcius(fromTemp: forecast.temperature))
-            return "\(cel)"  + Constants.degree + "C"
+            return String(format: "%.0f", period.temperature.value) + Constants.degree + "C"
         }
     }
 }

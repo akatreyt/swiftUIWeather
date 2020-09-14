@@ -7,8 +7,10 @@
 
 import Foundation
 import CoreLocation
+import NationalWeatherService
+import CoreLocation
 
-public typealias WeatherReturn = Result<WeatherData, Error>
+public typealias WeatherReturn = Result<Forecast, Error>
 
 struct MyNetwork{
     static let fetch : NetworkFetchable.Type = NetworkFetch.self
@@ -21,25 +23,16 @@ protocol NetworkFetchable {
 public class NetworkFetch : NetworkFetchable{
     public init(){}
     
+    let nws = NationalWeatherService(userAgent: "(MyWeatherApp, mycontact@example.com)")
+    
     public func fetchCurrentWeather(forLocation location:CLLocation, completion: @escaping (WeatherReturn) -> Void) {
-        let realURL = URL(string: "https://api.lil.software/weather?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")!
-       
-        let url = URL(string: "https://api.lil.software/weather?latitude=40.709335&longitude=-73.956558")!
-        URLSession.shared.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-            if let error = error {
+        nws.forecast(for: location) { result in
+          switch result {
+            case .success(let forecast):
+                completion(.success(forecast))
+            case .failure(let error):
                 completion(.failure(error))
-                return
-            }
-            guard let _ = response else {
-                // Handle Empty Response
-                return
-            }
-            guard let data = data else {
-                // Handle Empty Data
-                return
-            }
-            let weather: WeatherData = try! JSONDecoder().decode(WeatherData.self, from: data)
-            completion(.success(weather))
-        }.resume()
+          }
+        }
     }
 }
