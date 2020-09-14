@@ -22,6 +22,10 @@
 		1C1C395D250FF910004CE23A /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C395B250FF910004CE23A /* NoDataView.swift */; };
 		1C1C39622510057F004CE23A /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C39612510057F004CE23A /* TopView.swift */; };
 		1C1C39632510057F004CE23A /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C39612510057F004CE23A /* TopView.swift */; };
+		1C1C39652510128F004CE23A /* FlowerMoundGPS.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */; };
+		1C1C39662510128F004CE23A /* FlowerMoundGPS.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */; };
+		1C1C39672510128F004CE23A /* FlowerMoundGPS.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */; };
+		1C1C39682510128F004CE23A /* FlowerMoundGPS.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */; };
 		1C3C40EE250D8483002D74BD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C40ED250D8483002D74BD /* Constants.swift */; };
 		1C78F191250D7E71004062CB /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C78F190250D7E71004062CB /* Sample.json */; };
 		1C9D4187250E79D9004D7D9F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C9D4186250E79D9004D7D9F /* Colors.xcassets */; };
@@ -68,6 +72,7 @@
 		1C1C3958250FF8E7004CE23A /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		1C1C395B250FF910004CE23A /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		1C1C39612510057F004CE23A /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
+		1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FlowerMoundGPS.gpx; sourceTree = "<group>"; };
 		1C3C40ED250D8483002D74BD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1C78F190250D7E71004062CB /* Sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sample.json; sourceTree = "<group>"; };
 		1C9D4186250E79D9004D7D9F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -185,6 +190,7 @@
 				1C1C394D250E9908004CE23A /* Data */,
 				1C9D4186250E79D9004D7D9F /* Colors.xcassets */,
 				1CB0B238250D7460002EECCA /* Assets.xcassets */,
+				1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 				1C9D4187250E79D9004D7D9F /* Colors.xcassets in Resources */,
 				1CB0B263250D7460002EECCA /* Assets.xcassets in Resources */,
 				1C78F191250D7E71004062CB /* Sample.json in Resources */,
+				1C1C39652510128F004CE23A /* FlowerMoundGPS.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CB0B264250D7460002EECCA /* Assets.xcassets in Resources */,
+				1C1C39662510128F004CE23A /* FlowerMoundGPS.gpx in Resources */,
 				1C9D4188250E79D9004D7D9F /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +409,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C1C39672510128F004CE23A /* FlowerMoundGPS.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +417,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C1C39682510128F004CE23A /* FlowerMoundGPS.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
