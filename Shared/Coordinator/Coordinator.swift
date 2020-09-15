@@ -72,7 +72,9 @@ extension Coordinatorable{
             case .failure(let error):
                 print(error)
             }
-            self.isFetchingWeather = false
+            DispatchQueue.main.async {
+                self.isFetchingWeather = false
+            }
         }
     }
 }
