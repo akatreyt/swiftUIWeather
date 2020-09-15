@@ -9,12 +9,16 @@ import Foundation
 import CoreLocation
 import NationalWeatherService
 
-protocol DataLayer : ObservableObject {
-
+protocol DataWorkable : ObservableObject {
+    init()
+    var locationDesc : String { get set }
+    var currentWeather : Forecast? { get set }
 }
 
-public class RealDataLayer : DataLayer {
-
+public class DataLayer : DataWorkable {
+    required public init(){}
+    @Published var locationDesc: String = Constants.locationDesc
+    @Published var currentWeather : Forecast?
 }
 
 

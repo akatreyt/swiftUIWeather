@@ -9,39 +9,49 @@ import Foundation
 import Combine
 import CoreLocation
 import NationalWeatherService
-
+import SwiftUI
 
 protocol LocationManagable : ObservableObject{
-    var currentWeather : Forecast? { get }
-    var locationDesc : String { get }
+    init()
+    
+    associatedtype Network : NetworkFetchable
+    var publicNetwork : Network { get }
+    
+    associatedtype DataLayer : DataWorkable
+    var publicDataLayer : DataLayer { get }
+    
+    var locationDescProxy : String? { get }
 }
 
 
-class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
-    @Published var currentWeather : Forecast?
-    @Published var locationDesc : String = Constants.locationDesc
-    
-
-        
-    private let locationManager = CLLocationManager()
-    
-    private let network : NetworkFetchable = NetworkFetch()
-    
-    override init() {
+class LocationManager<NetworkFetcherGeneric, DataLayerGeneric>: NSObject, LocationManagable, CLLocationManagerDelegate where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:DataWorkable{
+    required override init() {
         super.init()
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
+        
+        locationDescProxy = publicDataLayer.locationDesc
     }
+    
+    typealias Network = NetworkFetcherGeneric
+    public var publicNetwork = Network()
+    
+    typealias DataLayer = DataLayerGeneric
+    public var publicDataLayer = DataLayer()
+    @Published var locationDescProxy : String?
+    
+    private let locationManager = CLLocationManager()
     
     private func updateWeather(atLocation location:CLLocation){
         let location = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        network.fetchCurrentWeather(forLocation: location) { (weatherReturn) in
+        publicNetwork.fetchCurrentWeather(forLocation: location) { (weatherReturn) in
             switch weatherReturn{
             case .success(let newWeather):
                 DispatchQueue.main.async {
-                    self.currentWeather = newWeather
+                    self.publicDataLayer.currentWeather = newWeather
+                    self.locationDescProxy = self.publicDataLayer.locationDesc
                 }
             case .failure(_):
                 print("error")
@@ -59,24 +69,36 @@ class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
                 print("Failed getting zip code: \(error)")
-                self.locationDesc = Constants.locationDesc
+                self.publicDataLayer.locationDesc = Constants.locationDesc
+                self.locationDescProxy = self.publicDataLayer.locationDesc
             }
             if let postalCode = placemarks?.first?.postalCode,
                let state = placemarks?.first?.administrativeArea,
                let locality = placemarks?.first?.locality{
-                self.locationDesc = locality + "," + state + " - " + postalCode
+                self.publicDataLayer.locationDesc = locality + "," + state + " - " + postalCode
+                self.locationDescProxy = self.publicDataLayer.locationDesc
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
-                self.locationDesc = Constants.locationDesc
+                self.publicDataLayer.locationDesc = Constants.locationDesc
+                self.locationDescProxy = self.publicDataLayer.locationDesc
             }
         }
     }
 }
 
 
-public class MockLocationLayer : LocationManagable{
-    required public init(){}
-    var locationDesc: String = "Hempstead, TX - 77445"
+class MockLocationLayer<NetworkFetcherGeneric, DataLayerGeneric> : LocationManagable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:DataWorkable{
+    
+    required init() {
+        locationDescProxy = publicDataLayer.locationDesc
+    }
+    var locationDescProxy: String?
+    
+    typealias Network = NetworkFetcherGeneric
+    public var publicNetwork = Network()
+    
+    typealias DataLayer = DataLayerGeneric
+    public var publicDataLayer = DataLayer()
     
     var currentWeather: Forecast? =  MockLocationLayer.createMockWeather()
     
@@ -88,8 +110,17 @@ public class MockLocationLayer : LocationManagable{
     }
 }
 
-public class MockEmptyLocationData : LocationManagable{
-    required public init(){}
-    var locationDesc: String = Constants.locationDesc
+class MockEmptyLocationData<NetworkFetcherGeneric, DataLayerGeneric> : LocationManagable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:DataWorkable{
+    required init() {
+        locationDescProxy = publicDataLayer.locationDesc
+    }
+    var locationDescProxy: String?
+    
+    typealias Network = NetworkFetcherGeneric
+    public var publicNetwork = Network()
+    
+    typealias DataLayer = DataLayerGeneric
+    public var publicDataLayer = DataLayer()
+    
     var currentWeather: Forecast?
 }
