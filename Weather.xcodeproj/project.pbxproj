@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C19F26A250E8A1000E961E2 /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* DataLayer.swift */; };
-		1C19F26B250E8A1000E961E2 /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* DataLayer.swift */; };
+		1C19F26A250E8A1000E961E2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* Storage.swift */; };
+		1C19F26B250E8A1000E961E2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* Storage.swift */; };
 		1C1C394B250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
 		1C1C394C250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
 		1C1C3951250FC4A1004CE23A /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C1C3950250FC4A1004CE23A /* NationalWeatherService */; };
@@ -28,6 +28,10 @@
 		1C1C39682510128F004CE23A /* FlowerMoundGPS.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */; };
 		1C1C396D25111F90004CE23A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C396C25111F90004CE23A /* Environment.swift */; };
 		1C1C396E25111F90004CE23A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C396C25111F90004CE23A /* Environment.swift */; };
+		1C1C397125115969004CE23A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C397025115969004CE23A /* Coordinator.swift */; };
+		1C1C397225115969004CE23A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C397025115969004CE23A /* Coordinator.swift */; };
+		1C1C39772511663C004CE23A /* FetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C39762511663C004CE23A /* FetchingView.swift */; };
+		1C1C39782511663C004CE23A /* FetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C39762511663C004CE23A /* FetchingView.swift */; };
 		1C3C40EE250D8483002D74BD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C40ED250D8483002D74BD /* Constants.swift */; };
 		1C78F191250D7E71004062CB /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C78F190250D7E71004062CB /* Sample.json */; };
 		1C9D4187250E79D9004D7D9F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C9D4186250E79D9004D7D9F /* Colors.xcassets */; };
@@ -67,7 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1C19F269250E8A1000E961E2 /* DataLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLayer.swift; sourceTree = "<group>"; };
+		1C19F269250E8A1000E961E2 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastRowFormatter.swift; sourceTree = "<group>"; };
 		1C1C3952250FD0F3004CE23A /* TempType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempType.swift; sourceTree = "<group>"; };
 		1C1C3955250FF8C9004CE23A /* PeriodRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodRowView.swift; sourceTree = "<group>"; };
@@ -76,6 +80,8 @@
 		1C1C39612510057F004CE23A /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
 		1C1C39642510128F004CE23A /* FlowerMoundGPS.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FlowerMoundGPS.gpx; sourceTree = "<group>"; };
 		1C1C396C25111F90004CE23A /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		1C1C397025115969004CE23A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		1C1C39762511663C004CE23A /* FetchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingView.swift; sourceTree = "<group>"; };
 		1C3C40ED250D8483002D74BD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1C78F190250D7E71004062CB /* Sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sample.json; sourceTree = "<group>"; };
 		1C9D4186250E79D9004D7D9F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -134,7 +140,7 @@
 		1C1C394D250E9908004CE23A /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				1C19F269250E8A1000E961E2 /* DataLayer.swift */,
+				1C19F269250E8A1000E961E2 /* Storage.swift */,
 				1C78F18F250D7E5D004062CB /* SampleData */,
 			);
 			path = Data;
@@ -146,6 +152,14 @@
 				1CADC73B250E7FE900018C49 /* LocationManager.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		1C1C396F2511595B004CE23A /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				1C1C397025115969004CE23A /* Coordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		1C78F18F250D7E5D004062CB /* SampleData */ = {
@@ -165,6 +179,7 @@
 				1C1C3958250FF8E7004CE23A /* HeaderView.swift */,
 				1C1C395B250FF910004CE23A /* NoDataView.swift */,
 				1C1C39612510057F004CE23A /* TopView.swift */,
+				1C1C39762511663C004CE23A /* FetchingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,6 +203,7 @@
 				1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */,
 				1CADC73A250E7D6000018C49 /* Views */,
 				1CB0B274250D747A002EECCA /* models */,
+				1C1C396F2511595B004CE23A /* Coordinator */,
 				1CB0B273250D7472002EECCA /* network */,
 				1C1C394E250E9920004CE23A /* Location */,
 				1C1C394D250E9908004CE23A /* Data */,
@@ -432,11 +448,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C1C39772511663C004CE23A /* FetchingView.swift in Sources */,
 				1C1C39622510057F004CE23A /* TopView.swift in Sources */,
 				1CADC73C250E7FE900018C49 /* LocationManager.swift in Sources */,
+				1C1C397125115969004CE23A /* Coordinator.swift in Sources */,
 				1C1C395C250FF910004CE23A /* NoDataView.swift in Sources */,
 				1C1C396D25111F90004CE23A /* Environment.swift in Sources */,
-				1C19F26A250E8A1000E961E2 /* DataLayer.swift in Sources */,
+				1C19F26A250E8A1000E961E2 /* Storage.swift in Sources */,
 				1C1C3956250FF8C9004CE23A /* PeriodRowView.swift in Sources */,
 				1C1C3953250FD0F3004CE23A /* TempType.swift in Sources */,
 				1C1C394B250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */,
@@ -453,14 +471,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C1C39782511663C004CE23A /* FetchingView.swift in Sources */,
 				1C1C39632510057F004CE23A /* TopView.swift in Sources */,
 				1CB0B262250D7460002EECCA /* ContentView.swift in Sources */,
+				1C1C397225115969004CE23A /* Coordinator.swift in Sources */,
 				1C1C395D250FF910004CE23A /* NoDataView.swift in Sources */,
 				1C1C396E25111F90004CE23A /* Environment.swift in Sources */,
 				1CADC73D250E7FE900018C49 /* LocationManager.swift in Sources */,
 				1C1C3957250FF8C9004CE23A /* PeriodRowView.swift in Sources */,
 				1C1C3954250FD0F3004CE23A /* TempType.swift in Sources */,
-				1C19F26B250E8A1000E961E2 /* DataLayer.swift in Sources */,
+				1C19F26B250E8A1000E961E2 /* Storage.swift in Sources */,
 				1C1C394C250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */,
 				1CADC736250E7D2400018C49 /* Network.swift in Sources */,
 				1C1C395A250FF8E7004CE23A /* HeaderView.swift in Sources */,

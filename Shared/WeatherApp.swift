@@ -11,7 +11,7 @@ import SwiftUI
 struct WeatherApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView<LocationManager<NetworkFetch, DataLayer>>()
+            ContentView(env: Environment.Release)
         }
     }
 }

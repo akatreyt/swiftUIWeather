@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import NationalWeatherService
+import CoreLocation
 
 
-class Environment<NetworkFetcherGeneric, DataLayerGeneric> : NSObject where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:DataWorkable{
-    public var data = DataLayerGeneric()
-    public var network = NetworkFetcherGeneric()
+struct Environment{
+    static let Mock = Coordinator<MockNetwork, PlistStorage, MockLocationManager>()
+    static let Empty = Coordinator<MockNetwork, PlistStorage, MockLocationManager>()
+    static let Release = Coordinator<Network, CoreDataStorage, LocationManager>()
+    static let Debug = Coordinator<Network, PlistStorage, LocationManager>()
+    static let Preview = PreviewCoordinator<MockNetwork, PlistStorage, MockLocationManager>()
 }
+

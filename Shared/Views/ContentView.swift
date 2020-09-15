@@ -15,50 +15,53 @@ extension Forecast.Period : Identifiable{
     }
 }
 
-struct ContentView<LocationGeneric>: View where LocationGeneric:LocationManagable{
+struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinatorable{
     @State private var showSettings = false
-    @ObservedObject public var lm = LocationGeneric()
+    @ObservedObject public var env = CoordinatorGeneric()
     
     var body: some View {
-        ZStack {
-            Color("TableHeader")
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                TopView(settingsAction: {
-                    self.showSettings.toggle()
-                },
-                locationString: lm.locationDescProxy!)
+        if env.isFetchingLocationDetails || env.isFetchingWeather{
+            FetchingView()
+        }else{
+            ZStack {
+                Color("TableHeader")
+                    .edgesIgnoringSafeArea(.all)
                 
-                if let _weather = lm.publicDataLayer.currentWeather,
-                   _weather.periods.count > 0{
-                    HeaderView(period: _weather.periods.first!)
+                VStack {
+                    TopView(settingsAction: {
+                        self.showSettings.toggle()
+                    },
+                    locationString: env.locationDescProxy)
                     
-                    List(_weather.periods.dropFirst()) { item in
-                        PeriodRowView(period: item)
+                    if let _weather = env.currentWeatherProxy,
+                       _weather.periods.count > 0{
+                        HeaderView(period: _weather.periods.first!)
+                        
+                        List(_weather.periods.dropFirst()) { item in
+                            PeriodRowView(period: item)
+                        }
+                    }else{
+                        NoDataView()
                     }
-                }else{
-                    NoDataView()
                 }
             }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
         }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
-        }
-        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            let cvLight = ContentView<MockLocationLayer<MockNetworkFetch, DataLayer>>()
+            let cvLight = ContentView(env: Environment.Preview)
             cvLight.environment(\.colorScheme, .light)
-
-            let cvDark = ContentView<MockLocationLayer<MockNetworkFetch, DataLayer>>()
+            
+            let cvDark = ContentView(env: Environment.Preview)
             cvDark.environment(\.colorScheme, .dark)
-
-            let cvNodata = ContentView<MockLocationLayer<MockNetworkFetch, DataLayer>>()
+            
+            let cvNodata = ContentView(env: Environment.Preview)
             cvNodata.environment(\.colorScheme, .dark)
         }
     }
