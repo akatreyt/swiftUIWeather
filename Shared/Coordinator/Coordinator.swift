@@ -18,7 +18,7 @@ protocol Coordinatorable : ObservableObject{
     associatedtype Network : NetworkFetchable
     var publicNetwork : Network { get }
     
-    associatedtype Location : LocationManagable
+    associatedtype Location : Locatable
     var publicLocation : Location { get }
     
     var locationDescProxy : String { get set }
@@ -79,7 +79,7 @@ extension Coordinatorable{
     }
 }
 
-class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:LocationManagable{
+class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:Locatable{
     
     required init() {
         self.publicNetwork = NetworkFetcherGeneric()
@@ -105,7 +105,7 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
     @Published public var currentWeatherProxy : Forecast?
 }
 
-class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:LocationManagable{
+class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:Locatable{
     
     required init() {
         self.publicNetwork = NetworkFetcherGeneric()

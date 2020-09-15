@@ -12,13 +12,13 @@ import NationalWeatherService
 import SwiftUI
 
 
-protocol LocationManagable{
+protocol Locatable{
     init(withUpdateLocationHandler handler : ((CLLocation) -> Void)?)
     var newLocationCompletion : ((CLLocation) -> Void)? { get set }
 }
 
 
-class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate {
+class LocationManager: NSObject, Locatable, CLLocationManagerDelegate {
     var newLocationCompletion: ((CLLocation) -> Void)?
     private let locationManager = CLLocationManager()
 
@@ -40,7 +40,7 @@ class LocationManager: NSObject, LocationManagable, CLLocationManagerDelegate {
 }
 
 
-class MockLocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
+class MockLocationManager: NSObject, Locatable, CLLocationManagerDelegate{
     var newLocationCompletion: ((CLLocation) -> Void)?
 
     required init(withUpdateLocationHandler handler : ((CLLocation) -> Void)?) {
@@ -56,7 +56,7 @@ class MockLocationManager: NSObject, LocationManagable, CLLocationManagerDelegat
     }
 }
 
-class MockEmptyLocationManager: NSObject, LocationManagable, CLLocationManagerDelegate{
+class MockEmptyLocationManager: NSObject, Locatable, CLLocationManagerDelegate{
     var newLocationCompletion: ((CLLocation) -> Void)?
 
     required init(withUpdateLocationHandler handler : ((CLLocation) -> Void)?) {
