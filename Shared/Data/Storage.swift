@@ -11,21 +11,22 @@ import NationalWeatherService
 
 protocol Storable {
     init()
-    var locationDesc : String { get set }
-    var currentWeather : Forecast? { get set }
+    func save()
 }
 
 public class CoreDataStorage : Storable {
     required public init(){}
     
-    var locationDesc: String = Constants.locationDesc
-    var currentWeather : Forecast?
+    func save() {
+        print("save")
+    }
 }
 
 public class PlistStorage : Storable{
     required init() {}
     
-    var locationDesc: String = Constants.locationDesc
-    var currentWeather: Forecast?
+    func save() {
+        print("save")
+    }
 }
 

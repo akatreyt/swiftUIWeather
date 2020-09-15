@@ -21,8 +21,8 @@ protocol Coordinatorable : ObservableObject{
     associatedtype Location : Locatable
     var publicLocation : Location { get }
     
-    var locationDescProxy : String { get set }
-    var currentWeatherProxy : Forecast? { get set }
+    var locationDesc : String { get set }
+    var currentWeather : Forecast? { get set }
     
     func receivedNew(location : CLLocation)
     
@@ -39,20 +39,19 @@ extension Coordinatorable{
     internal func getZip(forLoction location : CLLocation){
         self.isFetchingLocationDetails = true
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            var descString = Constants.locationDesc
             if let error = error {
                 print("Failed getting zip code: \(error)")
-                self.publicDataLayer.locationDesc = Constants.locationDesc
             }
             if let postalCode = placemarks?.first?.postalCode,
                let state = placemarks?.first?.administrativeArea,
                let locality = placemarks?.first?.locality{
-                self.publicDataLayer.locationDesc = locality + "," + state + " - " + postalCode
+                descString = locality + "," + state + " - " + postalCode
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
-                self.publicDataLayer.locationDesc = Constants.locationDesc
             }
             DispatchQueue.main.async {
-                self.locationDescProxy = self.publicDataLayer.locationDesc
+                self.locationDesc = descString
             }
             self.isFetchingLocationDetails = false
         }
@@ -65,9 +64,8 @@ extension Coordinatorable{
         publicNetwork.fetchCurrentWeather(forLocation: location) { (weatherReturn) in
             switch weatherReturn{
             case .success(let newWeather):
-                self.publicDataLayer.currentWeather = newWeather
                 DispatchQueue.main.async {
-                    self.currentWeatherProxy = self.publicDataLayer.currentWeather
+                    self.currentWeather = newWeather
                 }
             case .failure(let error):
                 print(error)
@@ -101,8 +99,8 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
     public var publicDataLayer : DataLayerGeneric
     public var publicNetwork : NetworkFetcherGeneric
     
-    @Published public var locationDescProxy : String = Constants.locationDesc
-    @Published public var currentWeatherProxy : Forecast?
+    @Published public var locationDesc : String = Constants.locationDesc
+    @Published public var currentWeather : Forecast?
 }
 
 class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:Locatable{
@@ -116,8 +114,8 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
             switch result{
             case .success(let location):
                 DispatchQueue.main.async {
-                    self.locationDescProxy = "Test"
-                    self.currentWeatherProxy = location
+                    self.locationDesc = "Test"
+                    self.currentWeather = location
                 }
             case .failure(let error):
                 print(error)
@@ -136,6 +134,6 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
     public var publicDataLayer : DataLayerGeneric
     public var publicNetwork : NetworkFetcherGeneric
     
-    @Published public var locationDescProxy : String = Constants.locationDesc
-    @Published public var currentWeatherProxy : Forecast?
+    @Published public var locationDesc : String = Constants.locationDesc
+    @Published public var currentWeather : Forecast?
 }

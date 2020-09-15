@@ -31,9 +31,9 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                     TopView(settingsAction: {
                         self.showSettings.toggle()
                     },
-                    locationString: coordinator.locationDescProxy)
+                    locationString: coordinator.locationDesc)
                     
-                    if let _weather = coordinator.currentWeatherProxy,
+                    if let _weather = coordinator.currentWeather,
                        _weather.periods.count > 0{
                         HeaderView(period: _weather.periods.first!)
                         
