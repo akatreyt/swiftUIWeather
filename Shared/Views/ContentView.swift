@@ -17,10 +17,10 @@ extension Forecast.Period : Identifiable{
 
 struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinatorable{
     @State private var showSettings = false
-    @ObservedObject public var env = CoordinatorGeneric()
+    @ObservedObject public var coordinator = CoordinatorGeneric()
     
     var body: some View {
-        if env.isFetchingLocationDetails || env.isFetchingWeather{
+        if coordinator.isFetchingLocationDetails || coordinator.isFetchingWeather{
             FetchingView()
         }else{
             ZStack {
@@ -31,9 +31,9 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                     TopView(settingsAction: {
                         self.showSettings.toggle()
                     },
-                    locationString: env.locationDescProxy)
+                    locationString: coordinator.locationDescProxy)
                     
-                    if let _weather = env.currentWeatherProxy,
+                    if let _weather = coordinator.currentWeatherProxy,
                        _weather.periods.count > 0{
                         HeaderView(period: _weather.periods.first!)
                         
@@ -55,13 +55,13 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            let cvLight = ContentView(env: Environment.Preview)
+            let cvLight = ContentView(coordinator: Environment.Preview)
             cvLight.environment(\.colorScheme, .light)
             
-            let cvDark = ContentView(env: Environment.Preview)
+            let cvDark = ContentView(coordinator: Environment.Preview)
             cvDark.environment(\.colorScheme, .dark)
             
-            let cvNodata = ContentView(env: Environment.Preview)
+            let cvNodata = ContentView(coordinator: Environment.Preview)
             cvNodata.environment(\.colorScheme, .dark)
         }
     }
