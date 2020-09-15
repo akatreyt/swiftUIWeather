@@ -8,7 +8,6 @@
 import Foundation
 import CoreLocation
 import NationalWeatherService
-import CoreLocation
 
 public typealias WeatherReturn = Result<Forecast, Error>
 
@@ -51,5 +50,12 @@ public class MockNetwork : NetworkFetchable{
         let weather: Forecast = try! JSONDecoder().decode(Forecast.self, from: data)
         isFetching = false
         completion(.success(weather))
+    }
+    
+    public func fetchSampleForecast() -> Forecast{
+        let path = Bundle.main.path(forResource: "Sample", ofType: "json")!
+        let data = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        let weather: Forecast = try! JSONDecoder().decode(Forecast.self, from: data)
+        return weather
     }
 }

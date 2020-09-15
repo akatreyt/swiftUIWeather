@@ -9,12 +9,6 @@ import SwiftUI
 import CoreLocation
 import NationalWeatherService
 
-extension Forecast.Period : Identifiable{
-    public var id: Date {
-        return self.date.start
-    }
-}
-
 struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinatorable{
     @State private var showSettings = false
     @ObservedObject public var coordinator = CoordinatorGeneric()
