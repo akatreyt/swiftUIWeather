@@ -21,11 +21,11 @@
       },
       {
         "package": "NationalWeatherService",
-        "repositoryURL": "https://github.com/WeatherProvider/NationalWeatherService-Swift.git",
+        "repositoryURL": "https://github.com/akatreyt/NationalWeatherService-Swift.git",
         "state": {
           "branch": null,
-          "revision": "5c2c24e867b36642c6cc694fcad98b8fd4bf1137",
-          "version": "0.3.0"
+          "revision": "4bec14b1db19b0dda5b6826929e81512b663792c",
+          "version": "0.4.1"
         }
       }
     ]

@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C07913C2512A2E600C32FB3 /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C07913B2512A2E600C32FB3 /* NationalWeatherService */; };
+		1C07913E2512A31000C32FB3 /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C07913D2512A31000C32FB3 /* NationalWeatherService */; };
 		1C19F26A250E8A1000E961E2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* Storage.swift */; };
 		1C19F26B250E8A1000E961E2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* Storage.swift */; };
 		1C1C394B250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
 		1C1C394C250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
-		1C1C3951250FC4A1004CE23A /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C1C3950250FC4A1004CE23A /* NationalWeatherService */; };
 		1C1C3953250FD0F3004CE23A /* TempType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C3952250FD0F3004CE23A /* TempType.swift */; };
 		1C1C3954250FD0F3004CE23A /* TempType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C3952250FD0F3004CE23A /* TempType.swift */; };
 		1C1C3956250FF8C9004CE23A /* PeriodRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C3955250FF8C9004CE23A /* PeriodRowView.swift */; };
@@ -41,7 +42,6 @@
 		1C694A9B25116F1D006FA9EE /* WeatherWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1C694A9625116F1D006FA9EE /* WeatherWidget.intentdefinition */; };
 		1C694A9E25116F1D006FA9EE /* WeatherWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1C694A8D25116F1D006FA9EE /* WeatherWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1C694AA325116FB7006FA9EE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B275250D74D3002EECCA /* Network.swift */; };
-		1C694AA5251170AF006FA9EE /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C694AA4251170AF006FA9EE /* NationalWeatherService */; };
 		1C694AA6251171AA006FA9EE /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C78F190250D7E71004062CB /* Sample.json */; };
 		1C694AA72511732A006FA9EE /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
 		1C694AA82511734E006FA9EE /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C9D4186250E79D9004D7D9F /* Colors.xcassets */; };
@@ -158,7 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C694A9225116F1D006FA9EE /* SwiftUI.framework in Frameworks */,
-				1C694AA5251170AF006FA9EE /* NationalWeatherService in Frameworks */,
+				1C07913E2512A31000C32FB3 /* NationalWeatherService in Frameworks */,
 				1C694A9025116F1D006FA9EE /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,7 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C1C3951250FC4A1004CE23A /* NationalWeatherService in Frameworks */,
+				1C07913C2512A2E600C32FB3 /* NationalWeatherService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +377,7 @@
 			);
 			name = WeatherWidgetExtension;
 			packageProductDependencies = (
-				1C694AA4251170AF006FA9EE /* NationalWeatherService */,
+				1C07913D2512A31000C32FB3 /* NationalWeatherService */,
 			);
 			productName = WeatherWidgetExtension;
 			productReference = 1C694A8D25116F1D006FA9EE /* WeatherWidgetExtension.appex */;
@@ -399,7 +399,7 @@
 			);
 			name = "Weather (iOS)";
 			packageProductDependencies = (
-				1C1C3950250FC4A1004CE23A /* NationalWeatherService */,
+				1C07913B2512A2E600C32FB3 /* NationalWeatherService */,
 			);
 			productName = "Weather (iOS)";
 			productReference = 1CB0B23D250D7460002EECCA /* Weather.app */;
@@ -496,7 +496,7 @@
 			);
 			mainGroup = 1CB0B230250D745F002EECCA;
 			packageReferences = (
-				1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */,
+				1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */,
 			);
 			productRefGroup = 1CB0B23E250D7460002EECCA /* Products */;
 			projectDirPath = "";
@@ -1066,25 +1066,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */ = {
+		1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WeatherProvider/NationalWeatherService-Swift.git";
+			repositoryURL = "https://github.com/akatreyt/NationalWeatherService-Swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.0;
+				minimumVersion = 0.4.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1C1C3950250FC4A1004CE23A /* NationalWeatherService */ = {
+		1C07913B2512A2E600C32FB3 /* NationalWeatherService */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
+			package = 1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
 			productName = NationalWeatherService;
 		};
-		1C694AA4251170AF006FA9EE /* NationalWeatherService */ = {
+		1C07913D2512A31000C32FB3 /* NationalWeatherService */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
+			package = 1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
 			productName = NationalWeatherService;
 		};
 /* End XCSwiftPackageProductDependency section */
