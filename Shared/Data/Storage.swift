@@ -11,13 +11,19 @@ import NationalWeatherService
 
 protocol Storable {
     init()
-    func save()
+    static func save(forecast fc : Forecast) throws
+    
+    static func getLatestForcast() throws -> Forecast
 }
 
 public class CoreDataStorage : Storable {
+    static func getLatestForcast() throws -> Forecast {
+        throw NSError(domain: "", code: 33, userInfo: [:])
+    }
+    
     required public init(){}
     
-    func save() {
+    class func save(forecast fc : Forecast) throws{
         print("save")
     }
 }
@@ -25,8 +31,27 @@ public class CoreDataStorage : Storable {
 public class PlistStorage : Storable{
     required init() {}
     
-    func save() {
-        print("save")
+    static let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Weather.plist")
+    
+    static var encoder = PropertyListEncoder()
+    static var decoder = PropertyListDecoder()
+    
+    static func getLatestForcast() throws -> Forecast {
+        do {
+            let data = try Data.init(contentsOf: fileURL!)
+            return try decoder.decode(Forecast.self, from: data)
+        } catch {
+            throw error
+        }
+    }
+    
+    static func save(forecast fc : Forecast) throws{
+        do {
+            let data = try encoder.encode(fc)
+            try data.write(to: PlistStorage.fileURL!)
+        } catch {
+            throw error
+        }
     }
 }
 
