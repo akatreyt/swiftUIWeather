@@ -11,7 +11,6 @@
 		1C19F26B250E8A1000E961E2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* Storage.swift */; };
 		1C1C394B250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
 		1C1C394C250E97B0004CE23A /* ForecastRowFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C394A250E97B0004CE23A /* ForecastRowFormatter.swift */; };
-		1C1C3951250FC4A1004CE23A /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C1C3950250FC4A1004CE23A /* NationalWeatherService */; };
 		1C1C3953250FD0F3004CE23A /* TempType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C3952250FD0F3004CE23A /* TempType.swift */; };
 		1C1C3954250FD0F3004CE23A /* TempType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C3952250FD0F3004CE23A /* TempType.swift */; };
 		1C1C3956250FF8C9004CE23A /* PeriodRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C3955250FF8C9004CE23A /* PeriodRowView.swift */; };
@@ -33,6 +32,7 @@
 		1C1C39772511663C004CE23A /* FetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C39762511663C004CE23A /* FetchingView.swift */; };
 		1C1C39782511663C004CE23A /* FetchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1C39762511663C004CE23A /* FetchingView.swift */; };
 		1C3C40EE250D8483002D74BD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C40ED250D8483002D74BD /* Constants.swift */; };
+		1C694AB325126186006FA9EE /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C694AB225126186006FA9EE /* NationalWeatherService */; };
 		1C78F191250D7E71004062CB /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C78F190250D7E71004062CB /* Sample.json */; };
 		1C9D4187250E79D9004D7D9F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C9D4186250E79D9004D7D9F /* Colors.xcassets */; };
 		1C9D4188250E79D9004D7D9F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C9D4186250E79D9004D7D9F /* Colors.xcassets */; };
@@ -109,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C1C3951250FC4A1004CE23A /* NationalWeatherService in Frameworks */,
+				1C694AB325126186006FA9EE /* NationalWeatherService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +295,7 @@
 			);
 			name = "Weather (iOS)";
 			packageProductDependencies = (
-				1C1C3950250FC4A1004CE23A /* NationalWeatherService */,
+				1C694AB225126186006FA9EE /* NationalWeatherService */,
 			);
 			productName = "Weather (iOS)";
 			productReference = 1CB0B23D250D7460002EECCA /* Weather.app */;
@@ -389,7 +389,7 @@
 			);
 			mainGroup = 1CB0B230250D745F002EECCA;
 			packageReferences = (
-				1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */,
+				1C694AB125126186006FA9EE /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */,
 			);
 			productRefGroup = 1CB0B23E250D7460002EECCA /* Products */;
 			projectDirPath = "";
@@ -866,9 +866,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */ = {
+		1C694AB125126186006FA9EE /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WeatherProvider/NationalWeatherService-Swift.git";
+			repositoryURL = "https://github.com/akatreyt/NationalWeatherService-Swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.3.0;
@@ -877,9 +877,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1C1C3950250FC4A1004CE23A /* NationalWeatherService */ = {
+		1C694AB225126186006FA9EE /* NationalWeatherService */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1C1C394F250FC4A1004CE23A /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
+			package = 1C694AB125126186006FA9EE /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
 			productName = NationalWeatherService;
 		};
 /* End XCSwiftPackageProductDependency section */

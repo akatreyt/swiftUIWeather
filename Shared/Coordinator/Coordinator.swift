@@ -64,6 +64,15 @@ extension Coordinatorable{
         publicNetwork.fetchCurrentWeather(forLocation: location) { (weatherReturn) in
             switch weatherReturn{
             case .success(let newWeather):
+                do{
+                    try DataLayer.save(forecast: newWeather)
+                    #if DEBUG
+                    let _ = try DataLayer.getLatestForcast()
+                    #endif
+                }catch{
+                    assertionFailure("saving failed")
+                    print(error)
+                }
                 DispatchQueue.main.async {
                     self.currentWeather = newWeather
                 }

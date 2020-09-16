@@ -13,7 +13,7 @@ import CoreLocation
 struct Environment{
     static let Mock = Coordinator<MockNetwork, PlistStorage, MockLocationManager>()
     static let Empty = Coordinator<MockNetwork, PlistStorage, MockLocationManager>()
-    static let Release = Coordinator<Network, CoreDataStorage, LocationManager>()
+    static let Release = Coordinator<Network, PlistStorage, LocationManager>()
     static let Debug = Coordinator<Network, PlistStorage, LocationManager>()
     static let Preview = PreviewCoordinator<MockNetwork, PlistStorage, MockLocationManager>()
 }
