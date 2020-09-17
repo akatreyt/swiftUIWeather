@@ -44,7 +44,7 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                 SettingsView(zipCodeEntered: { (zipCode) in
                     showSettings = false
                     coordinator.getGps(fromZip: Int(zipCode)!)
-                })
+                }, completeWeather: coordinator.forecast)
             }
         }
     }

@@ -140,6 +140,7 @@ extension Coordinatorable{
         
         if !isFetchingSomething && self.isFetching == true{
             DispatchQueue.main.async {
+                self.forecast.lastFetch = Date()
                 self.isFetching = false
             }
         }

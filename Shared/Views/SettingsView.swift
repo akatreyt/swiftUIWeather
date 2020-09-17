@@ -11,6 +11,7 @@ struct SettingsView: View {
     @State private var zipCode : String = ""
     public var zipCodeEntered : ((String) -> Void)
     @State private var zipCodeValid = false
+    public var completeWeather : CompleteWeather
     
     var body: some View {
         let binding = Binding<String>(get: {
@@ -27,6 +28,8 @@ struct SettingsView: View {
                 }.disabled(!zipCodeValid)
             }
             .background(Color.white)
+            Spacer()
+            Text("Last data fetch: \(completeWeather.lastFetch)")
             Spacer()
         }
         .padding()
@@ -48,13 +51,13 @@ struct SettingsView_Previews: PreviewProvider {
         Group {
             let cvLight = SettingsView(zipCodeEntered: {(value) in
                 print(value)
-            })
+            }, completeWeather: CompleteWeather())
             cvLight.environment(\.colorScheme, .light)
             
             
             let cvDark = SettingsView(zipCodeEntered: {(value) in
                 print(value)
-            })
+            }, completeWeather: CompleteWeather())
             cvDark.environment(\.colorScheme, .dark)
         }
     }
