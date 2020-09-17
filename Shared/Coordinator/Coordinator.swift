@@ -134,6 +134,10 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
         self.publicDataLayer = DataLayerGeneric()
         self.publicLocation = LocationGeneric(withUpdateLocationHandler: nil)
         
+        if let _storedWeather = try? DataLayer.getLatestForcast(){
+            self.forecast = _storedWeather
+        }
+        
         self.publicLocation.newLocationCompletion = { (newLocation) in
             self.receivedNew(location: newLocation)
         }
@@ -160,6 +164,10 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
         self.publicNetwork = NetworkFetcherGeneric()
         self.publicDataLayer = DataLayerGeneric()
         self.publicLocation = LocationGeneric(withUpdateLocationHandler: nil)
+        
+        if let _storedWeather = try? DataLayer.getLatestForcast(){
+            self.forecast = _storedWeather
+        }
         
         MockNetwork().fetchCurrentWeather(forLocation: CLLocation(latitude: 33.031741, longitude: -97.078818)) { (result) in
             switch result{
