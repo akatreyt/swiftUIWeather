@@ -41,7 +41,10 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                 }
             }
             .sheet(isPresented: $showSettings) {
-                SettingsView()
+                SettingsView(zipCodeEntered: { (zipCode) in
+                    showSettings = false
+                    coordinator.getGps(fromZip: Int(zipCode)!)
+                })
             }
         }
     }

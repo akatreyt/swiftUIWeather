@@ -27,8 +27,11 @@ protocol Coordinatorable : ObservableObject{
     var isFetchingWeather : Bool { get set }
     var isFetchingHourlyWeather : Bool { get set }
     var isFetchingLocationDetails : Bool { get set }
+    var isFetchingGPSFromZip : Bool { get set }
     
     var isFetching : Bool { get set }
+    
+    func getGps(fromZip zip : Int)
 }
 
 extension Coordinatorable{
@@ -41,6 +44,21 @@ extension Coordinatorable{
         updateHourlyWeather(atLocation: location)
     }
     
+    internal func getGps(fromZip zip : Int){
+        self.isFetchingGPSFromZip = true
+        CLGeocoder().geocodeAddressString("\(zip)") { (placemarks, error) in
+            self.isFetchingGPSFromZip = false
+            if let error = error{
+                return
+            }
+            
+            if let location = placemarks?.first?.location{
+                self.receivedNew(location: CLLocation(latitude: location.coordinate.latitude,
+                                                 longitude: location.coordinate.longitude))
+            }
+        }
+    }
+    
     internal func getZip(forLoction location : CLLocation){
         self.isFetchingLocationDetails = true
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
@@ -48,10 +66,12 @@ extension Coordinatorable{
             if let error = error {
                 print("Failed getting zip code: \(error)")
             }
-            if let postalCode = placemarks?.first?.postalCode,
-               let state = placemarks?.first?.administrativeArea,
+            if let state = placemarks?.first?.administrativeArea,
                let locality = placemarks?.first?.locality{
-                descString = locality + "," + state + " - " + postalCode
+                descString = locality + "," + state
+                if let zip = placemarks?.first?.postalCode{
+                    descString = descString + " - " + zip
+                }
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
             }
@@ -110,7 +130,7 @@ extension Coordinatorable{
     }
     
     private func updateFetching(){
-        let isFetchingSomething = isFetchingWeather || isFetchingHourlyWeather || isFetchingLocationDetails
+        let isFetchingSomething = isFetchingWeather || isFetchingHourlyWeather || isFetchingLocationDetails || isFetchingGPSFromZip
         
         if isFetchingSomething && self.isFetching == false{
             DispatchQueue.main.async {
@@ -145,6 +165,7 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
     internal var isFetchingWeather: Bool = false
     internal var isFetchingHourlyWeather: Bool = false
     internal var isFetchingLocationDetails: Bool = false
+    internal var isFetchingGPSFromZip : Bool = false
     @Published public var isFetching : Bool = false
     
     typealias DataLayer = DataLayerGeneric
@@ -185,6 +206,7 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
     internal var isFetchingWeather: Bool = false
     internal var isFetchingHourlyWeather: Bool = false
     internal var isFetchingLocationDetails: Bool = false
+    internal var isFetchingGPSFromZip : Bool = false
     @Published public var isFetching : Bool = false
     
     typealias DataLayer = DataLayerGeneric
