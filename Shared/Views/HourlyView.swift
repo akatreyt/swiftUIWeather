@@ -26,7 +26,9 @@ struct HourlyView: View {
                     Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
                     Text(dateFormatter.string(from: period.startTime))
                 }
-                Spacer()
+                if period.startTime != periods.last?.startTime{
+                    Spacer()
+                }
             }
         }
     }
