@@ -33,5 +33,16 @@ struct CompleteWeather : Codable{
         }
         return [Forecast.Period]()
     }
+    
+    func get(forDate date : Date) -> Forecast.Period?{
+        if let hourlyPeriods = hourlyForecast?.periods{
+            let period = hourlyPeriods.filter({
+                ($0.startTime ... $0.endTime).contains(date)
+            }).first
+            
+            return period
+        }
+        return nil
+    }
 }
 

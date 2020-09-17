@@ -40,28 +40,31 @@ struct Provider: IntentTimelineProvider {
 struct WeatherEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
+    let coordinator =  Coordinator<Network, PlistStorage, LocationManager>()
+    let rowFormatter : RowFormattable.Type = RowFormatter.self
 }
 
 struct WeatherWidgetEntryView : View {
     var entry: Provider.Entry
-    let forecast = MockNetwork().fetchSampleForecast()
-    let rowFormatter : RowFormattable.Type = RowFormatter.self
     
     @Environment(\.widgetFamily) var family: WidgetFamily
     
     var body: some View {
-        let periodsToShow = getPeriods(forSizeClass: family,
-                                       allPeriods: forecast.periods)
-        
-        switch family {
-        case .systemSmall:
-            SmallView(periods: periodsToShow)
-        case .systemMedium:
-            MediumView(periods: periodsToShow)
-        case .systemLarge:
-            LargeView(periods: periodsToShow)
-        @unknown default:
-            SmallView(periods: periodsToShow)
+        if let _periods = entry.coordinator.forecast.fullForecast?.periods{
+            let periodsToShow = getPeriods(forSizeClass: family,
+                                           allPeriods: _periods)
+            
+            switch family {
+            case .systemSmall:
+                SmallView(periods: periodsToShow)
+            case .systemMedium:
+                MediumView(periods: periodsToShow)
+            case .systemLarge:
+                LargeView(currentPeriod: entry.coordinator.forecast.get(forDate: Date())!,
+                          hourlyPeriods: entry.coordinator.forecast.getHourly(forDate: Date(), includingNext: 5))
+            @unknown default:
+                SmallView(periods: periodsToShow)
+            }
         }
     }
     
@@ -87,13 +90,13 @@ struct SmallView : View {
     let rowFormatter : RowFormattable.Type = RowFormatter.self
     
     var body: some View {
-        HStack{
+        HStack(alignment:.center){
             ForEach(periods, id: \.id){ period in
                 VStack{
                     Text(period.name ?? "")
                         .font(.body)
                         .foregroundColor(Color("TextColor"))
-                        .multilineTextAlignment(.center)
+                        .padding()
                     Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
                         .font(.body)
                         .foregroundColor(Color("TextColor"))
@@ -103,10 +106,8 @@ struct SmallView : View {
                         .font(.body)
                         .foregroundColor(Color("TextColor"))
                 }
-                Spacer()
             }
         }
-        .padding()
     }
 }
 
@@ -148,67 +149,13 @@ struct MediumView : View {
 }
 
 struct LargeView : View {
-    let periods : [Forecast.Period]
+    let currentPeriod : Forecast.Period
+    let hourlyPeriods : [Forecast.Period]
+    
     let rowFormatter : RowFormattable.Type = RowFormatter.self
     
     var body: some View {
-        if periods.count != 6{
-            Text("Incorrect info")
-        }else{
-            let firstTrip = Array(periods.prefix(upTo: 3))
-            let lastTrip = Array(periods.suffix(3))
-            
-            VStack{
-                HStack{
-                    Spacer()
-                    ForEach(firstTrip, id: \.id){ period in
-                        VStack{
-                            Text(period.name ?? "")
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                                .multilineTextAlignment(.center)
-                            Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                            Image(systemName: "cloud")
-                                .foregroundColor(Color("TextColor"))
-                            Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                            Text(period.shortForecast)
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                        }
-                        Spacer()
-                    }
-                }
-                Spacer()
-                HStack{
-                    Spacer()
-                    ForEach(lastTrip, id: \.id){ period in
-                        VStack{
-                            Text(period.name ?? "")
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                                .multilineTextAlignment(.center)
-                            Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                            Image(systemName: "cloud")
-                                .foregroundColor(Color("TextColor"))
-                            Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                            Text(period.shortForecast)
-                                .font(.body)
-                                .foregroundColor(Color("TextColor"))
-                        }
-                        Spacer()
-                    }
-                }
-            }
-            .padding()
-        }
+        HeaderView(period: currentPeriod, hourlyPeriods: hourlyPeriods)
     }
 }
 
