@@ -50,13 +50,13 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            let cvLight = ContentView(coordinator: Environment.Preview)
+            let cvLight = ContentView(coordinator: AppEnvironment.Preview)
             cvLight.environment(\.colorScheme, .light)
             
-            let cvDark = ContentView(coordinator: Environment.Preview)
+            let cvDark = ContentView(coordinator: AppEnvironment.Preview)
             cvDark.environment(\.colorScheme, .dark)
             
-            let cvNodata = ContentView(coordinator: Environment.Preview)
+            let cvNodata = ContentView(coordinator: AppEnvironment.Preview)
             cvNodata.environment(\.colorScheme, .dark)
         }
     }
