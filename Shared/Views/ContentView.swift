@@ -20,7 +20,7 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
     @ObservedObject public var coordinator = CoordinatorGeneric()
     
     var body: some View {
-        if coordinator.isFetchingLocationDetails || coordinator.isFetchingWeather{
+        if coordinator.isFetching{
             FetchingView()
         }else{
             ZStack {
@@ -31,11 +31,12 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                     TopView(settingsAction: {
                         self.showSettings.toggle()
                     },
-                    locationString: coordinator.locationDesc)
-                    
-                    if let _weather = coordinator.currentWeather,
+                    locationString: coordinator.forecast.locationDesc)
+                                        
+                    if let _weather = coordinator.forecast.fullForecast,
                        _weather.periods.count > 0{
-                        HeaderView(period: _weather.periods.first!)
+                        HeaderView(period: _weather.periods.first!,
+                                   hourlyPeriods: coordinator.forecast.getHourly(forDate: Date(), includingNext: 5))
                         
                         List(_weather.periods.dropFirst()) { item in
                             PeriodRowView(period: item)

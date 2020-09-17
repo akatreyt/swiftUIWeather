@@ -12,7 +12,8 @@ import SwiftUI
 struct HeaderView: View {
     let period:Forecast.Period
     let rowFormatter : RowFormattable.Type = RowFormatter.self
-
+    let hourlyPeriods : [Forecast.Period]
+    
     var body: some View {
         VStack{
             Text(period.name!)
@@ -31,6 +32,8 @@ struct HeaderView: View {
                     .foregroundColor(Color("HeaderTextColor"))
                 Spacer()
             }
+            HourlyView(periods: hourlyPeriods)
+                .padding()
         }
     }
 }

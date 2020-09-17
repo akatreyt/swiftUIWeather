@@ -21,19 +21,24 @@ protocol Coordinatorable : ObservableObject{
     associatedtype Location : Locatable
     var publicLocation : Location { get }
     
-    var locationDesc : String { get set }
-    var currentWeather : Forecast? { get set }
-    
+    var forecast : CompleteWeather { get set }
     func receivedNew(location : CLLocation)
     
     var isFetchingWeather : Bool { get set }
+    var isFetchingHourlyWeather : Bool { get set }
     var isFetchingLocationDetails : Bool { get set }
+    
+    var isFetching : Bool { get set }
 }
 
 extension Coordinatorable{
     internal func receivedNew(location : CLLocation){
+        DispatchQueue.main.async {
+            self.isFetching = true
+        }
         getZip(forLoction: location)
         updateWeather(atLocation: location)
+        updateHourlyWeather(atLocation: location)
     }
     
     internal func getZip(forLoction location : CLLocation){
@@ -50,22 +55,20 @@ extension Coordinatorable{
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
             }
-            DispatchQueue.main.async {
-                self.locationDesc = descString
-            }
+            self.forecast.locationDesc = descString
             self.isFetchingLocationDetails = false
+            self.updateFetching()
         }
     }
     
     internal func updateWeather(atLocation location:CLLocation){
         self.isFetchingWeather = true
-        self.isFetchingLocationDetails = true
         let location = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         publicNetwork.fetchCurrentWeather(forLocation: location) { (weatherReturn) in
             switch weatherReturn{
             case .success(let newWeather):
                 do{
-                    try DataLayer.save(forecast: newWeather)
+                    try DataLayer.save(completeWeather: self.forecast)
                     #if DEBUG
                     let _ = try DataLayer.getLatestForcast()
                     #endif
@@ -73,16 +76,54 @@ extension Coordinatorable{
                     assertionFailure("saving failed")
                     print(error)
                 }
-                DispatchQueue.main.async {
-                    self.currentWeather = newWeather
-                }
+                self.isFetchingWeather = false
+                self.forecast.fullForecast = newWeather
+                self.updateFetching()
             case .failure(let error):
                 print(error)
             }
-            DispatchQueue.main.async {
-                self.isFetchingWeather = false
+        }
+    }
+    
+    internal func updateHourlyWeather(atLocation location:CLLocation){
+        self.isFetchingHourlyWeather = true
+        let location = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        publicNetwork.fetchHourlyFor(forLocation: location) { (weatherReturn) in
+            switch weatherReturn{
+            case .success(let newWeather):
+                do{
+                    try DataLayer.save(completeWeather: self.forecast)
+                    #if DEBUG
+                    let _ = try DataLayer.getLatestForcast()
+                    #endif
+                }catch{
+                    assertionFailure("saving failed")
+                    print(error)
+                }
+                self.isFetchingHourlyWeather = false
+                self.forecast.hourlyForecast = newWeather
+                self.updateFetching()
+            case .failure(let error):
+                print(error)
             }
         }
+    }
+    
+    private func updateFetching(){
+        let isFetchingSomething = isFetchingWeather || isFetchingHourlyWeather || isFetchingLocationDetails
+        
+        if isFetchingSomething && self.isFetching == false{
+            DispatchQueue.main.async {
+                self.isFetching = true
+            }
+        }
+        
+        if !isFetchingSomething && self.isFetching == true{
+            DispatchQueue.main.async {
+                self.isFetching = false
+            }
+        }
+
     }
 }
 
@@ -97,9 +138,11 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
             self.receivedNew(location: newLocation)
         }
     }
-    @Published var isFetchingWeather: Bool = false
-    @Published var isFetchingLocationDetails: Bool = false
-
+    internal var isFetchingWeather: Bool = false
+    internal var isFetchingHourlyWeather: Bool = false
+    internal var isFetchingLocationDetails: Bool = false
+    @Published public var isFetching : Bool = false
+    
     typealias DataLayer = DataLayerGeneric
     typealias Network = NetworkFetcherGeneric
     typealias Location = LocationGeneric
@@ -108,8 +151,7 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
     public var publicDataLayer : DataLayerGeneric
     public var publicNetwork : NetworkFetcherGeneric
     
-    @Published public var locationDesc : String = Constants.locationDesc
-    @Published public var currentWeather : Forecast?
+    public var forecast = CompleteWeather()
 }
 
 class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:Locatable{
@@ -123,8 +165,8 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
             switch result{
             case .success(let location):
                 DispatchQueue.main.async {
-                    self.locationDesc = "Test"
-                    self.currentWeather = location
+                    self.forecast.locationDesc = "Test"
+                    self.forecast.fullForecast = location
                 }
             case .failure(let error):
                 print(error)
@@ -132,9 +174,11 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
         }
     }
     
-    var isFetchingWeather: Bool = false
-    var isFetchingLocationDetails: Bool = false
-
+    internal var isFetchingWeather: Bool = false
+    internal var isFetchingHourlyWeather: Bool = false
+    internal var isFetchingLocationDetails: Bool = false
+    @Published public var isFetching : Bool = false
+    
     typealias DataLayer = DataLayerGeneric
     typealias Network = NetworkFetcherGeneric
     typealias Location = LocationGeneric
@@ -143,6 +187,5 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
     public var publicDataLayer : DataLayerGeneric
     public var publicNetwork : NetworkFetcherGeneric
     
-    @Published public var locationDesc : String = Constants.locationDesc
-    @Published public var currentWeather : Forecast?
+    var forecast = CompleteWeather()
 }
