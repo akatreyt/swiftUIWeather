@@ -21,7 +21,7 @@ protocol Coordinatorable : ObservableObject{
     associatedtype Location : Locatable
     var publicLocation : Location { get }
     
-    var forecast : CompleteWeather { get set }
+    var weather : CompleteWeather { get set }
     func receivedNew(location : CLLocation)
     
     var isFetchingWeather : Bool { get set }
@@ -75,7 +75,7 @@ extension Coordinatorable{
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
             }
-            self.forecast.locationDesc = descString
+            self.weather.locationDesc = descString
             self.isFetchingLocationDetails = false
             self.updateFetching()
         }
@@ -88,7 +88,7 @@ extension Coordinatorable{
             switch weatherReturn{
             case .success(let newWeather):
                 do{
-                    try DataLayer.save(completeWeather: self.forecast)
+                    try DataLayer.save(completeWeather: self.weather)
                     #if DEBUG
                     let _ = try DataLayer.getLatestForcast()
                     #endif
@@ -97,7 +97,7 @@ extension Coordinatorable{
                     print(error)
                 }
                 self.isFetchingWeather = false
-                self.forecast.fullForecast = newWeather
+                self.weather.fullForecast = newWeather
                 self.updateFetching()
             case .failure(let error):
                 print(error)
@@ -112,7 +112,7 @@ extension Coordinatorable{
             switch weatherReturn{
             case .success(let newWeather):
                 do{
-                    try DataLayer.save(completeWeather: self.forecast)
+                    try DataLayer.save(completeWeather: self.weather)
                     #if DEBUG
                     let _ = try DataLayer.getLatestForcast()
                     #endif
@@ -121,7 +121,7 @@ extension Coordinatorable{
                     print(error)
                 }
                 self.isFetchingHourlyWeather = false
-                self.forecast.hourlyForecast = newWeather
+                self.weather.hourlyForecast = newWeather
                 self.updateFetching()
             case .failure(let error):
                 print(error)
@@ -140,7 +140,7 @@ extension Coordinatorable{
         
         if !isFetchingSomething && self.isFetching == true{
             DispatchQueue.main.async {
-                self.forecast.lastFetch = Date()
+                self.weather.lastFetch = Date()
                 self.isFetching = false
             }
         }
@@ -156,7 +156,7 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
         self.publicLocation = LocationGeneric(withUpdateLocationHandler: nil)
         
         if let _storedWeather = try? DataLayer.getLatestForcast(){
-            self.forecast = _storedWeather
+            self.weather = _storedWeather
         }
         
         self.publicLocation.newLocationCompletion = { (newLocation) in
@@ -177,7 +177,7 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
     public var publicDataLayer : DataLayerGeneric
     public var publicNetwork : NetworkFetcherGeneric
     
-    public var forecast = CompleteWeather()
+    public var weather = CompleteWeather()
 }
 
 class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Coordinatorable where NetworkFetcherGeneric:NetworkFetchable, DataLayerGeneric:Storable, LocationGeneric:Locatable{
@@ -188,15 +188,15 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
         self.publicLocation = LocationGeneric(withUpdateLocationHandler: nil)
         
         if let _storedWeather = try? DataLayer.getLatestForcast(){
-            self.forecast = _storedWeather
+            self.weather = _storedWeather
         }
         
         MockNetwork().fetchCurrentWeather(forLocation: CLLocation(latitude: 33.031741, longitude: -97.078818)) { (result) in
             switch result{
             case .success(let location):
                 DispatchQueue.main.async {
-                    self.forecast.locationDesc = "Test"
-                    self.forecast.fullForecast = location
+                    self.weather.locationDesc = "Test"
+                    self.weather.fullForecast = location
                 }
             case .failure(let error):
                 print(error)
@@ -218,5 +218,5 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
     public var publicDataLayer : DataLayerGeneric
     public var publicNetwork : NetworkFetcherGeneric
     
-    var forecast = CompleteWeather()
+    var weather = CompleteWeather()
 }

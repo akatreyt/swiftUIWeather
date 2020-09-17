@@ -50,7 +50,7 @@ struct WeatherWidgetEntryView : View {
     @Environment(\.widgetFamily) var family: WidgetFamily
     
     var body: some View {
-        if let _periods = entry.coordinator.forecast.fullForecast?.periods{
+        if let _periods = entry.coordinator.weather.fullForecast?.periods{
             let periodsToShow = getPeriods(forSizeClass: family,
                                            allPeriods: _periods)
             
@@ -60,8 +60,8 @@ struct WeatherWidgetEntryView : View {
             case .systemMedium:
                 MediumView(periods: periodsToShow)
             case .systemLarge:
-                LargeView(currentPeriod: entry.coordinator.forecast.get(forDate: Date())!,
-                          hourlyPeriods: entry.coordinator.forecast.getHourly(forDate: Date(), includingNext: 5))
+                LargeView(currentPeriod: entry.coordinator.weather.get(forDate: Date())!,
+                          hourlyPeriods: entry.coordinator.weather.getHourly(forDate: Date(), includingNext: 5))
             @unknown default:
                 SmallView(periods: periodsToShow)
             }

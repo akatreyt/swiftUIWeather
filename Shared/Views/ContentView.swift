@@ -25,12 +25,12 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                     TopView(settingsAction: {
                         self.showSettings.toggle()
                     },
-                    locationString: coordinator.forecast.locationDesc)
+                    locationString: coordinator.weather.locationDesc)
                                         
-                    if let _weather = coordinator.forecast.fullForecast,
+                    if let _weather = coordinator.weather.fullForecast,
                        _weather.periods.count > 0{
                         HeaderView(period: _weather.periods.first!,
-                                   hourlyPeriods: coordinator.forecast.getHourly(forDate: Date(), includingNext: 5))
+                                   hourlyPeriods: coordinator.weather.getHourly(forDate: Date(), includingNext: 5))
                         
                         List(_weather.periods.dropFirst()) { item in
                             PeriodRowView(period: item)
@@ -44,7 +44,7 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                 SettingsView(zipCodeEntered: { (zipCode) in
                     showSettings = false
                     coordinator.getGps(fromZip: Int(zipCode)!)
-                }, completeWeather: coordinator.forecast)
+                }, completeWeather: coordinator.weather)
             }
         }
     }
