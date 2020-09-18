@@ -88,9 +88,9 @@ extension Coordinatorable{
             switch weatherReturn{
             case .success(let newWeather):
                 do{
-                    try DataLayer.save(completeWeather: self.weather)
+                    try DataLayer.save(item: self.weather)
                     #if DEBUG
-                    let _ = try DataLayer.getLatestForcast()
+                    let _ = try DataLayer.getLatest(asType: CompleteWeather.self)
                     #endif
                 }catch{
                     assertionFailure("saving failed")
@@ -112,9 +112,9 @@ extension Coordinatorable{
             switch weatherReturn{
             case .success(let newWeather):
                 do{
-                    try DataLayer.save(completeWeather: self.weather)
+                    try DataLayer.save(item: self.weather)
                     #if DEBUG
-                    let _ = try DataLayer.getLatestForcast()
+                    let _ = try DataLayer.getLatest(asType: CompleteWeather.self)
                     #endif
                 }catch{
                     assertionFailure("saving failed")
@@ -155,7 +155,7 @@ class Coordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneric> : Co
         self.publicDataLayer = DataLayerGeneric()
         self.publicLocation = LocationGeneric(withUpdateLocationHandler: nil)
         
-        if let _storedWeather = try? DataLayer.getLatestForcast(){
+        if let _storedWeather = try? DataLayer.getLatest(asType: CompleteWeather.self){
             self.weather = _storedWeather
         }
         
@@ -187,7 +187,7 @@ class PreviewCoordinator<NetworkFetcherGeneric, DataLayerGeneric, LocationGeneri
         self.publicDataLayer = DataLayerGeneric()
         self.publicLocation = LocationGeneric(withUpdateLocationHandler: nil)
         
-        if let _storedWeather = try? DataLayer.getLatestForcast(){
+        if let _storedWeather = try? DataLayer.getLatest(asType: CompleteWeather.self){
             self.weather = _storedWeather
         }
         

@@ -22,21 +22,20 @@ public enum AppGroup: String {
 
 protocol Storable {
     init()
-    static func save(completeWeather cw : CompleteWeather) throws
-    
-    static func getLatestForcast() throws -> CompleteWeather
+    static func save<CodableGeneric:Codable>(item it : CodableGeneric) throws
+    static func getLatest<CodableGeneric:Codable>(asType type : CodableGeneric.Type) throws -> CodableGeneric
 }
 
 public class CoreDataStorage : Storable {
-    static func getLatestForcast() throws -> CompleteWeather {
+    static func getLatest<CodableGeneric>(asType type: CodableGeneric.Type) throws -> CodableGeneric where CodableGeneric : Decodable, CodableGeneric : Encodable {
         throw NSError(domain: "", code: 33, userInfo: [:])
     }
     
-    required public init(){}
-    
-    class func save(completeWeather cw : CompleteWeather) throws{
+    static func save<CodableGeneric:Codable>(item it : CodableGeneric) throws {
         print("save")
     }
+    
+    required public init(){}
 }
 
 public class PlistStorage : Storable{
@@ -47,19 +46,19 @@ public class PlistStorage : Storable{
     static var encoder = PropertyListEncoder()
     static var decoder = PropertyListDecoder()
     
-    static func getLatestForcast() throws -> CompleteWeather {
+    static func save<CodableGeneric:Codable>(item it : CodableGeneric) throws{
         do {
-            let data = try Data.init(contentsOf: PlistStorage.fileURL)
-            return try decoder.decode(CompleteWeather.self, from: data)
+            let data = try encoder.encode(it)
+            try data.write(to: PlistStorage.fileURL)
         } catch {
             throw error
         }
     }
     
-    static func save(completeWeather cw : CompleteWeather) throws{
+    static func getLatest<CodableGeneric>(asType type: CodableGeneric.Type) throws -> CodableGeneric where CodableGeneric : Decodable, CodableGeneric : Encodable {
         do {
-            let data = try encoder.encode(cw)
-            try data.write(to: PlistStorage.fileURL)
+            let data = try Data.init(contentsOf: PlistStorage.fileURL)
+            return try decoder.decode(type.self, from: data)
         } catch {
             throw error
         }
