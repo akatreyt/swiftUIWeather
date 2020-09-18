@@ -14,26 +14,44 @@ struct SettingsView: View {
     public var completeWeather : CompleteWeather
     
     var body: some View {
+        let taskDateFormat: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            return formatter
+        }()
+        
         let binding = Binding<String>(get: {
             self.zipCode
         }, set: {
             self.zipCode = $0
             testZipCode()
         })
+        
         VStack{
             VStack{
                 TextField("Enter zip code", text: binding)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
                 Button("Locate") {
                     self.zipCodeEntered(zipCode)
-                }.disabled(!zipCodeValid)
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .disabled(!zipCodeValid)
+                .padding()
+                .foregroundColor(zipCodeValid ? Color(UIColor.label) : Color(UIColor.secondaryLabel))
             }
-            .background(Color.white)
+            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(8)
+            
+            
             Spacer()
-            Text("Last data fetch: \(completeWeather.lastFetch)")
-            Spacer()
+            Text("Last data fetch\n\(completeWeather.lastFetch, formatter:taskDateFormat)")
+                .foregroundColor(Color("TextColor"))
+                .multilineTextAlignment(.center)
         }
         .padding()
-        .background(Color.red)
+        .background(Color(UIColor.systemBackground))
     }
     
     private func testZipCode(){
