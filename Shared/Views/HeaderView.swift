@@ -14,22 +14,30 @@ struct HeaderView: View {
     let rowFormatter : RowFormattable.Type = RowFormatter.self
     let hourlyPeriods : [Forecast.Period]
     
+    @AppStorage("viewType",
+                store: UserDefaults(suiteName: AppGroup.weather.rawValue))
+    var selection: ViewTypes = .both
+    
     var body: some View {
         VStack{
             Text(period.name!)
             HStack{
                 Spacer()
-                Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color("HeaderTextColor"))
+                if [ViewTypes.fahrenheit, ViewTypes.both].contains(selection){
+                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("HeaderTextColor"))
+                }
                 Image(systemName: "cloud")
                     .font(.largeTitle)
                     .foregroundColor(Color("HeaderTextColor"))
-                Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color("HeaderTextColor"))
+                if [ViewTypes.celsius, ViewTypes.both].contains(selection){
+                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("HeaderTextColor"))
+                }
                 Spacer()
             }
             HourlyView(periods: hourlyPeriods)

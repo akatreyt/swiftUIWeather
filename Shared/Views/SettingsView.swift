@@ -13,10 +13,15 @@ struct SettingsView: View {
     @State private var zipCodeValid = false
     public var completeWeather : CompleteWeather
     
+    @AppStorage("viewType",
+                store: UserDefaults(suiteName: AppGroup.weather.rawValue))
+    var selection: ViewTypes = .both
+    
     var body: some View {
         let taskDateFormat: DateFormatter = {
             let formatter = DateFormatter()
-            formatter.dateStyle = .long
+            formatter.dateStyle = .short
+            formatter.timeStyle = .short
             return formatter
         }()
         
@@ -43,9 +48,20 @@ struct SettingsView: View {
             }
             .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(8)
+            .padding(.bottom)
             
-            
+            Section(header: Text("Choose type"))
+            {
+                Picker("This Title Is Localized", selection: $selection) {
+                    ForEach(ViewTypes.allCases, id: \.rawValue) { value in
+                        Text(value.rawValue)
+                            .tag(value)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+            }
             Spacer()
+            
             Text("Last data fetch\n\(completeWeather.lastFetch, formatter:taskDateFormat)")
                 .foregroundColor(Color("TextColor"))
                 .multilineTextAlignment(.center)
