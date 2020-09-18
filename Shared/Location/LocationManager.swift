@@ -21,20 +21,36 @@ protocol Locatable{
 class LocationManager: NSObject, Locatable, CLLocationManagerDelegate {
     var newLocationCompletion: ((CLLocation) -> Void)?
     private let locationManager = CLLocationManager()
-
+    private var lastLocation : CLLocation?
+    
     required init(withUpdateLocationHandler handler : ((CLLocation) -> Void)?) {
         super.init()
-
+        
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        if let _comp = newLocationCompletion{
-            _comp(location)
+            
+        if location.timestamp.timeIntervalSinceNow < -5 {
+            return
+        }
+        if location.horizontalAccuracy < 0 {
+            return
+        }
+        var distance = CLLocationDistanceMax
+        if let _last = lastLocation{
+            distance = _last.distance(from: location)
+        }
+        
+        if distance > 25 {
+            lastLocation = location
+            if let _comp = newLocationCompletion{
+                _comp(location)
+            }
         }
     }
 }
@@ -42,10 +58,10 @@ class LocationManager: NSObject, Locatable, CLLocationManagerDelegate {
 
 class MockLocationManager: NSObject, Locatable, CLLocationManagerDelegate{
     var newLocationCompletion: ((CLLocation) -> Void)?
-
+    
     required init(withUpdateLocationHandler handler : ((CLLocation) -> Void)?) {
         newLocationCompletion = handler
-
+        
         super.init()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -58,10 +74,10 @@ class MockLocationManager: NSObject, Locatable, CLLocationManagerDelegate{
 
 class MockEmptyLocationManager: NSObject, Locatable, CLLocationManagerDelegate{
     var newLocationCompletion: ((CLLocation) -> Void)?
-
+    
     required init(withUpdateLocationHandler handler : ((CLLocation) -> Void)?) {
         newLocationCompletion = handler
-
+        
         super.init()
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C06A12C25140C8400E547F3 /* GEOSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1C06A12B25140C8400E547F3 /* GEOSwift */; };
+		1C06A13425140CC700E547F3 /* geos in Frameworks */ = {isa = PBXBuildFile; productRef = 1C06A13325140CC700E547F3 /* geos */; };
+		1C06A13525140CC700E547F3 /* geos in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1C06A13325140CC700E547F3 /* geos */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1C07913C2512A2E600C32FB3 /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C07913B2512A2E600C32FB3 /* NationalWeatherService */; };
 		1C07913E2512A31000C32FB3 /* NationalWeatherService in Frameworks */ = {isa = PBXBuildFile; productRef = 1C07913D2512A31000C32FB3 /* NationalWeatherService */; };
 		1C19F26A250E8A1000E961E2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19F269250E8A1000E961E2 /* Storage.swift */; };
@@ -146,6 +149,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1C06A13625140CC700E547F3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1C06A13525140CC700E547F3 /* geos in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C694A9F25116F1D006FA9EE /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,6 +234,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C06A12C25140C8400E547F3 /* GEOSwift in Frameworks */,
+				1C06A13425140CC700E547F3 /* geos in Frameworks */,
 				1C07913C2512A2E600C32FB3 /* NationalWeatherService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +464,7 @@
 				1CB0B23A250D7460002EECCA /* Frameworks */,
 				1CB0B23B250D7460002EECCA /* Resources */,
 				1C694A9F25116F1D006FA9EE /* Embed App Extensions */,
+				1C06A13625140CC700E547F3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -457,6 +474,8 @@
 			name = "Weather (iOS)";
 			packageProductDependencies = (
 				1C07913B2512A2E600C32FB3 /* NationalWeatherService */,
+				1C06A12B25140C8400E547F3 /* GEOSwift */,
+				1C06A13325140CC700E547F3 /* geos */,
 			);
 			productName = "Weather (iOS)";
 			productReference = 1CB0B23D250D7460002EECCA /* Weather.app */;
@@ -554,6 +573,8 @@
 			mainGroup = 1CB0B230250D745F002EECCA;
 			packageReferences = (
 				1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */,
+				1C06A12A25140C8400E547F3 /* XCRemoteSwiftPackageReference "GEOSwift" */,
+				1C06A13225140CC700E547F3 /* XCRemoteSwiftPackageReference "geos" */,
 			);
 			productRefGroup = 1CB0B23E250D7460002EECCA /* Products */;
 			projectDirPath = "";
@@ -1176,6 +1197,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1C06A12A25140C8400E547F3 /* XCRemoteSwiftPackageReference "GEOSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GEOSwift/GEOSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+		1C06A13225140CC700E547F3 /* XCRemoteSwiftPackageReference "geos" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GEOSwift/geos.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/akatreyt/NationalWeatherService-Swift.git";
@@ -1187,6 +1224,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1C06A12B25140C8400E547F3 /* GEOSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C06A12A25140C8400E547F3 /* XCRemoteSwiftPackageReference "GEOSwift" */;
+			productName = GEOSwift;
+		};
+		1C06A13325140CC700E547F3 /* geos */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C06A13225140CC700E547F3 /* XCRemoteSwiftPackageReference "geos" */;
+			productName = geos;
+		};
 		1C07913B2512A2E600C32FB3 /* NationalWeatherService */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1C07913A2512A2E600C32FB3 /* XCRemoteSwiftPackageReference "NationalWeatherService-Swift" */;
