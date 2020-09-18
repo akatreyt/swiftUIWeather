@@ -88,7 +88,7 @@ extension Coordinatorable{
             switch weatherReturn{
             case .success(let newWeather):
                 do{
-                    try DataLayer.save(item: self.weather)
+                    try DataLayer.save(item: newWeather)
                     #if DEBUG
                     let _ = try DataLayer.getLatest(asType: CompleteWeather.self)
                     #endif
