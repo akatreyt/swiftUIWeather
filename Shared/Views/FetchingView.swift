@@ -9,7 +9,14 @@ import SwiftUI
 
 struct FetchingView: View {
     var body: some View {
-        Text("Is fetching")
+        HStack{
+            Text("Updating")
+                .padding()
+            ProgressView()
+        }
+        .padding([.leading, .trailing])
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(23)
     }
 }
 
