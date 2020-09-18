@@ -21,6 +21,11 @@ struct HeaderView: View {
     var body: some View {
         VStack{
             Text(period.name!)
+            
+            Image(systemName: "cloud")
+                .font(.largeTitle)
+                .foregroundColor(Color("HeaderTextColor"))
+            
             HStack{
                 Spacer()
                 if [ViewTypes.fahrenheit, ViewTypes.both].contains(selection){
@@ -29,9 +34,12 @@ struct HeaderView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(Color("HeaderTextColor"))
                 }
-                Image(systemName: "cloud")
-                    .font(.largeTitle)
-                    .foregroundColor(Color("HeaderTextColor"))
+                
+                if [ViewTypes.both].contains(selection){
+                    Text("|")
+                        .padding([.leading, .trailing])
+                }
+                
                 if [ViewTypes.celsius, ViewTypes.both].contains(selection){
                     Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
                         .font(.largeTitle)

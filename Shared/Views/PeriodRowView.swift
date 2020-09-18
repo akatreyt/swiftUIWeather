@@ -19,7 +19,11 @@ struct PeriodRowView: View {
     
     var body: some View {
         VStack{
-            Text(period.name!)
+            HStack{
+                Text(period.name!)
+                Image(systemName: "cloud")
+                    .foregroundColor(Color("TextColor"))
+            }
             HStack{
                 Spacer()
                 if [ViewTypes.fahrenheit, ViewTypes.both].contains(selection){
@@ -27,8 +31,12 @@ struct PeriodRowView: View {
                         .font(.body)
                         .foregroundColor(Color("TextColor"))
                 }
-                Image(systemName: "cloud")
-                    .foregroundColor(Color("TextColor"))
+                
+                if [ViewTypes.both].contains(selection){
+                    Text("|")
+                        .padding([.leading, .trailing])
+                }
+                
                 if [ViewTypes.celsius, ViewTypes.both].contains(selection){
                     Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
                         .font(.body)
@@ -39,5 +47,11 @@ struct PeriodRowView: View {
         }
         .padding(.vertical)
         .listRowBackground(Color.red)
+    }
+}
+
+struct PeriodRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
