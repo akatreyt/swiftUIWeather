@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 import NationalWeatherService
-
+import BackgroundTasks
 
 protocol Coordinatorable : ObservableObject{
     init()
@@ -32,34 +32,68 @@ protocol Coordinatorable : ObservableObject{
     var isFetching : Bool { get set }
     
     func getGps(fromZip zip : Int)
+    
+    func runBGTask(withDispatchGroup dpGroup : DispatchGroup, dispatchQueue queue : DispatchQueue, forLocation location : CLLocation)
 }
 
 extension Coordinatorable{
+    public func runBGTask(withDispatchGroup dpGroup : DispatchGroup, dispatchQueue queue : DispatchQueue, forLocation location : CLLocation){
+        queue.async(group: dpGroup) {
+            dpGroup.enter()
+            self.getZip(forLoction: location, dispatchGroup: dpGroup)
+            
+            dpGroup.enter()
+            self.updateWeather(atLocation: location, dispatchGroup: dpGroup)
+            
+            dpGroup.enter()
+            self.updateHourlyWeather(atLocation: location, dispatchGroup: dpGroup)
+        }
+    }
+    
     internal func receivedNew(location : CLLocation){
         DispatchQueue.main.async {
             self.isFetching = true
         }
-        getZip(forLoction: location)
-        updateWeather(atLocation: location)
-        updateHourlyWeather(atLocation: location)
+        
+        weather.latitude = location.coordinate.latitude
+        weather.longitdue = location.coordinate.longitude
+        
+        let queue = WeatherQueues.updateQueue
+        let group = DispatchGroup()
+        
+        queue.async(group: group) {
+            group.enter()
+            self.getZip(forLoction: location, dispatchGroup: group)
+            
+            group.enter()
+            self.updateWeather(atLocation: location, dispatchGroup: group)
+            
+            group.enter()
+            self.updateHourlyWeather(atLocation: location, dispatchGroup: group)
+        }
+        
+        group.notify(queue: queue) {
+            // log to something this task completed
+            print("task update completed")
+        }
     }
     
     internal func getGps(fromZip zip : Int){
         self.isFetchingGPSFromZip = true
         CLGeocoder().geocodeAddressString("\(zip)") { (placemarks, error) in
             self.isFetchingGPSFromZip = false
-            if let error = error{
+            if let _ = error{
                 return
             }
             
             if let location = placemarks?.first?.location{
                 self.receivedNew(location: CLLocation(latitude: location.coordinate.latitude,
-                                                 longitude: location.coordinate.longitude))
+                                                      longitude: location.coordinate.longitude))
             }
         }
     }
     
-    internal func getZip(forLoction location : CLLocation){
+    private func getZip(forLoction location : CLLocation, dispatchGroup group : DispatchGroup){
         self.isFetchingLocationDetails = true
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             var descString = Constants.locationDesc
@@ -72,6 +106,8 @@ extension Coordinatorable{
                 if let zip = placemarks?.first?.postalCode{
                     descString = descString + " - " + zip
                 }
+                print("finished getting zip")
+                group.leave()
             } else {
                 print("Failed getting zip code from placemark(s): \(placemarks?.description ?? "nil")")
             }
@@ -81,7 +117,7 @@ extension Coordinatorable{
         }
     }
     
-    internal func updateWeather(atLocation location:CLLocation){
+    private func updateWeather(atLocation location:CLLocation, dispatchGroup group : DispatchGroup){
         self.isFetchingWeather = true
         let location = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         publicNetwork.fetchCurrentWeather(forLocation: location) { (weatherReturn) in
@@ -93,6 +129,8 @@ extension Coordinatorable{
                     #if DEBUG
                     let _ = try DataLayer.getLatest(asType: CompleteWeather.self)
                     #endif
+                    print("finished updateWeather")
+                    group.leave()
                 }catch{
                     assertionFailure("saving failed")
                     print(error)
@@ -105,7 +143,7 @@ extension Coordinatorable{
         }
     }
     
-    internal func updateHourlyWeather(atLocation location:CLLocation){
+    private func updateHourlyWeather(atLocation location:CLLocation, dispatchGroup group : DispatchGroup){
         self.isFetchingHourlyWeather = true
         let location = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         publicNetwork.fetchHourlyFor(forLocation: location) { (weatherReturn) in
@@ -117,6 +155,8 @@ extension Coordinatorable{
                     #if DEBUG
                     let _ = try DataLayer.getLatest(asType: CompleteWeather.self)
                     #endif
+                    print("finished updateHourlyWeather")
+                    group.leave()
                 }catch{
                     assertionFailure("saving failed")
                     print(error)
@@ -144,7 +184,7 @@ extension Coordinatorable{
                 self.isFetching = false
             }
         }
-
+        
     }
 }
 

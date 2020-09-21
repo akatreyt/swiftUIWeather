@@ -13,6 +13,8 @@ struct CompleteWeather : Codable{
     var hourlyForecast : Forecast?
     var locationDesc : String = Constants.locationDesc
     var lastFetch = Date()
+    var latitude : Double?
+    var longitdue : Double?
     
     func getHourly(forDate date : Date, includingNext next : Int) -> [Forecast.Period]{
         if let hourlyPeriods = hourlyForecast?.periods{
