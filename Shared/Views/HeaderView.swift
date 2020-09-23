@@ -48,8 +48,16 @@ struct HeaderView: View {
                 }
                 Spacer()
             }
+            
             HourlyView(periods: hourlyPeriods)
-                .padding()
+                .padding([.top, .leading, .trailing])
+            
+            Text(period.detailedForecast ?? "")
+                .lineLimit(5)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .font(.footnote)
+                .padding([.top, .leading, .trailing])
         }
     }
 }

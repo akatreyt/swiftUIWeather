@@ -19,10 +19,11 @@ struct PeriodRowView: View {
     
     var body: some View {
         VStack{
-            HStack{
+            VStack{
                 Text(period.name!)
                 Image(uiImage: period.weatherIcon())
                     .foregroundColor(Color("TextColor"))
+                
             }
             HStack{
                 Spacer()
@@ -44,6 +45,13 @@ struct PeriodRowView: View {
                 }
                 Spacer()
             }
+            Spacer()
+            Text(period.detailedForecast ?? "")
+                .lineLimit(5)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .font(.footnote)
+                .padding([.top, .leading, .trailing])
         }
         .padding(.vertical)
         .listRowBackground(Color.red)
