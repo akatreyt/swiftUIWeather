@@ -7,6 +7,7 @@
 
 import Foundation
 import NationalWeatherService
+import UIKit
 
 struct CompleteWeather : Codable{
     var fullForecast : Forecast?
@@ -49,3 +50,87 @@ struct CompleteWeather : Codable{
     }
 }
 
+extension Forecast.Period{
+    func weatherIcon() -> UIImage{
+        var image : UIImage = UIImage(systemName: "cloud.rain")!
+
+        guard let firstCondition = self.conditions.first else {
+            return image
+        }
+        
+        switch firstCondition {
+        case .skc:
+            image = UIImage(systemName: "sun.min")!
+        case .few:
+            image = UIImage(systemName: "cloud.sun")!
+        case .sct:
+            image = UIImage(systemName: "cloud")!
+        case .bkn:
+            image = UIImage(systemName: "cloud")!
+        case .ovc:
+            image = UIImage(systemName: "cloud.drizzle")!
+        case .wind_skc:
+            image = UIImage(systemName: "cloud.sun")!
+        case .wind_few:
+            image = UIImage(systemName: "cloud.sun")!
+        case .wind_sct:
+            image = UIImage(systemName: "win")!
+        case .wind_bkn:
+            image = UIImage(systemName: "win")!
+        case .wind_ovc:
+            image = UIImage(systemName: "win")!
+        case .snow:
+            image = UIImage(systemName: "snow")!
+        case .rain_snow:
+            image = UIImage(systemName: "cloud.snow")!
+        case .rain_sleet:
+            image = UIImage(systemName: "cloud.snow")!
+        case .snow_sleet:
+            image = UIImage(systemName: "cloud.snow")!
+        case .fzra:
+            image = UIImage(systemName: "cloud.snow")!
+        case .rain_fzra:
+            image = UIImage(systemName: "cloud.snow")!
+        case .snow_fzra:
+            image = UIImage(systemName: "cloud.snow")!
+        case .sleet:
+            image = UIImage(systemName: "cloud.rain")!
+        case .rain:
+            image = UIImage(systemName: "cloud.rain")!
+        case .rain_showers:
+            image = UIImage(systemName: "cloud.rain")!
+        case .rain_showers_hi:
+            image = UIImage(systemName: "cloud.rain")!
+        case .tsra:
+            image = UIImage(systemName: "cloud.rain")!
+        case .tsra_sct:
+            image = UIImage(systemName: "cloud.rain")!
+        case .tsra_hi:
+            image = UIImage(systemName: "cloud.bolt.rain")!
+        case .tornado:
+            image = UIImage(systemName: "tornado")!
+        case .hurricane:
+            image = UIImage(systemName: "hurricane")!
+        case .tropical_storm:
+            image = UIImage(systemName: "tropicalstorm")!
+        case .dust:
+            image = UIImage(systemName: "sun.dust")!
+        case .smoke:
+            image = UIImage(systemName: "smoke")!
+        case .haze:
+            image = UIImage(systemName: "sun.haze")!
+        case .hot:
+            image = UIImage(systemName: "thermometer.sun")!
+        case .cold:
+            image = UIImage(systemName: "thermometer.snowflake")!
+        case .blizzard:
+            image = UIImage(systemName: "cloud.snow")!
+        case .fog:
+            image = UIImage(systemName: "cloud.fog")!
+        case .other:
+            image = UIImage(systemName: "exclamationmark.icloud")!
+        }
+        
+        return image
+    }
+}

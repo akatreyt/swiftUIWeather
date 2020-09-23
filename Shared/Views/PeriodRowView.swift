@@ -21,7 +21,7 @@ struct PeriodRowView: View {
         VStack{
             HStack{
                 Text(period.name!)
-                Image(systemName: "cloud")
+                Image(uiImage: period.weatherIcon())
                     .foregroundColor(Color("TextColor"))
             }
             HStack{

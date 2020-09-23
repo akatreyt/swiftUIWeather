@@ -22,7 +22,7 @@ struct HeaderView: View {
         VStack{
             Text(period.name!)
             
-            Image(systemName: "cloud")
+            Image(uiImage: period.weatherIcon())
                 .font(.largeTitle)
                 .foregroundColor(Color("HeaderTextColor"))
             
