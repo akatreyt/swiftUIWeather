@@ -12,7 +12,7 @@ import NationalWeatherService
 struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinatorable{
     @State private var showSettings = false
     @ObservedObject public var coordinator = CoordinatorGeneric()
-    
+        
     var body: some View {
         ZStack {
             Color("TableHeader")
