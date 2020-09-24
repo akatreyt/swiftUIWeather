@@ -26,11 +26,18 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                 
                 if let _weather = coordinator.weather.fullForecast,
                    _weather.periods.count > 0{
-                    HeaderView(period: _weather.periods.first!,
-                               hourlyPeriods: coordinator.weather.getHourly(forDate: Date(), includingNext: 5))
+                    HeaderView(period: _weather.periods.first!)
                     
-                    List(_weather.periods.dropFirst()) { item in
-                        PeriodRowView(period: item)
+                    List{
+                        Section() {
+                            HourDescriptionRowView(hourlyPeriods: coordinator.weather.getHourly(forDate: Date(), includingNext: 5),
+                                                   period: _weather.periods.first!)
+                        }
+                        Section() {
+                            ForEach(_weather.periods.dropFirst()){ item in
+                                PeriodRowView(period: item)
+                            }
+                        }
                     }
                 }else{
                     NoDataView()
@@ -49,6 +56,7 @@ struct ContentView<CoordinatorGeneric>: View where CoordinatorGeneric:Coordinato
                 coordinator.getGps(fromZip: Int(zipCode)!)
             }, completeWeather: coordinator.weather)
         }
+        
     }
 }
 

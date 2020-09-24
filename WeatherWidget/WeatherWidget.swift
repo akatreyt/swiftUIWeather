@@ -155,7 +155,7 @@ struct LargeView : View {
     let rowFormatter : RowFormattable.Type = RowFormatter.self
     
     var body: some View {
-        HeaderView(period: currentPeriod, hourlyPeriods: hourlyPeriods)
+        HeaderView(period: currentPeriod)
     }
 }
 

@@ -54,7 +54,6 @@ struct PeriodRowView: View {
                 .padding([.top, .leading, .trailing])
         }
         .padding(.vertical)
-        .listRowBackground(Color.red)
     }
 }
 

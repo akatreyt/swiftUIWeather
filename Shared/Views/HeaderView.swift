@@ -12,7 +12,6 @@ import SwiftUI
 struct HeaderView: View {
     let period:Forecast.Period
     let rowFormatter : RowFormattable.Type = RowFormatter.self
-    let hourlyPeriods : [Forecast.Period]
     
     @AppStorage("viewType",
                 store: UserDefaults(suiteName: AppGroup.weather.rawValue))
@@ -48,16 +47,6 @@ struct HeaderView: View {
                 }
                 Spacer()
             }
-            
-            HourlyView(periods: hourlyPeriods)
-                .padding([.top, .leading, .trailing])
-            
-            Text(period.detailedForecast ?? "")
-                .lineLimit(5)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .font(.footnote)
-                .padding([.top, .leading, .trailing])
         }
     }
 }

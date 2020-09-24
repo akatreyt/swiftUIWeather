@@ -138,6 +138,11 @@
 		1CB0B263250D7460002EECCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CB0B238250D7460002EECCA /* Assets.xcassets */; };
 		1CB0B264250D7460002EECCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CB0B238250D7460002EECCA /* Assets.xcassets */; };
 		1CB0B276250D74D3002EECCA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB0B275250D74D3002EECCA /* Network.swift */; };
+		1CD1248C251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */; };
+		1CD1248D251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */; };
+		1CD1248E251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */; };
+		1CD1248F251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */; };
+		1CD12490251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +242,7 @@
 		1CB0B25C250D7460002EECCA /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		1CB0B25E250D7460002EECCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CB0B275250D74D3002EECCA /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HourDescriptionRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +346,7 @@
 		1CADC73A250E7D6000018C49 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1CD1248B251CEB81002B25CC /* HourDescriptionRowView.swift */,
 				1CB0B237250D745F002EECCA /* ContentView.swift */,
 				1CADC737250E7D5700018C49 /* SettingsView.swift */,
 				1C1C3955250FF8C9004CE23A /* PeriodRowView.swift */,
@@ -690,6 +697,7 @@
 				1C7C0E6D2513F52B002C37B6 /* Storage.swift in Sources */,
 				1C7C0EB92513F53D002C37B6 /* HeaderView.swift in Sources */,
 				1C12B7222519485A00C654F2 /* WeatherBGTask.swift in Sources */,
+				1CD12490251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,6 +717,7 @@
 				1C1C397125115969004CE23A /* Coordinator.swift in Sources */,
 				1C1C395C250FF910004CE23A /* NoDataView.swift in Sources */,
 				1C1C396D25111F90004CE23A /* AppEnvironment.swift in Sources */,
+				1CD1248C251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */,
 				1C19F26A250E8A1000E961E2 /* Storage.swift in Sources */,
 				1C1C3956250FF8C9004CE23A /* PeriodRowView.swift in Sources */,
 				1C1BB8F52513CB310079C243 /* CompleteWeather.swift in Sources */,
@@ -749,6 +758,7 @@
 				1C38384525193FFC00AD707B /* AppDelegate.swift in Sources */,
 				1CADC735250E7D2000018C49 /* Constants.swift in Sources */,
 				1C12B71F2519485A00C654F2 /* WeatherBGTask.swift in Sources */,
+				1CD1248D251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +788,7 @@
 				1C7C0EE82513F540002C37B6 /* SettingsView.swift in Sources */,
 				1C7C0EE92513F540002C37B6 /* HeaderView.swift in Sources */,
 				1C12B7202519485A00C654F2 /* WeatherBGTask.swift in Sources */,
+				1CD1248E251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +818,7 @@
 				1C7C0ED02513F53F002C37B6 /* SettingsView.swift in Sources */,
 				1C7C0ED12513F53F002C37B6 /* HeaderView.swift in Sources */,
 				1C12B7212519485A00C654F2 /* WeatherBGTask.swift in Sources */,
+				1CD1248F251CEB81002B25CC /* HourDescriptionRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
