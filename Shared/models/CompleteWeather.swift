@@ -9,6 +9,10 @@ import Foundation
 import NationalWeatherService
 import UIKit
 
+public typealias HiLowTemp = (hi : Forecast.Period,
+                              low : Forecast.Period,
+                              weatherIcon : UIImage)
+
 struct CompleteWeather : Codable{
     var fullForecast : Forecast?
     var hourlyForecast : Forecast?
@@ -45,6 +49,19 @@ struct CompleteWeather : Codable{
             }).first
             
             return period
+        }
+        return nil
+    }
+    
+    #warning("find the real hi low here")
+    func getHiLow(forDate date : Date) -> HiLowTemp?{
+        if let hourlyPeriods = hourlyForecast?.periods{
+            let periods = hourlyPeriods.filter({
+                ($0.startTime ... $0.endTime).contains(date)
+            })
+            return (periods.first!,
+                    periods.last!,
+                    UIImage(systemName: "cloud")!)
         }
         return nil
     }

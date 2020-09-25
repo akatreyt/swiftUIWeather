@@ -56,14 +56,22 @@ struct WeatherWidgetEntryView : View {
             
             switch family {
             case .systemSmall:
-                SmallView(periods: periodsToShow)
+                if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: Date()){
+                    SmallView(hiLowTemp: hiLowTemps)
+                }else{
+                    Text("shit broke")
+                }
             case .systemMedium:
                 MediumView(periods: periodsToShow)
             case .systemLarge:
                 LargeView(currentPeriod: entry.coordinator.weather.get(forDate: Date())!,
                           hourlyPeriods: entry.coordinator.weather.getHourly(forDate: Date(), includingNext: 5))
             @unknown default:
-                SmallView(periods: periodsToShow)
+                if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: Date()){
+                    SmallView(hiLowTemp: hiLowTemps)
+                }else{
+                    Text("shit broke")
+                }
             }
         }
     }
@@ -86,28 +94,58 @@ struct WeatherWidgetEntryView : View {
 }
 
 struct SmallView : View {
-    let periods : [Forecast.Period]
+    let hiLowTemp : HiLowTemp
     let rowFormatter : RowFormattable.Type = RowFormatter.self
     
     var body: some View {
-        HStack(alignment:.center){
-            ForEach(periods, id: \.id){ period in
-                VStack{
-                    Text(period.name ?? "")
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                        .padding()
-                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                    Image(uiImage: period.weatherIcon())
-                        .foregroundColor(Color("TextColor"))
-                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                }
+        VStack{
+            HStack{
+                Text("Today")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.top, .leading], 10)
+                    .font(.body)
+                    .foregroundColor(Color("TextColor"))
+                
+                Image(uiImage: hiLowTemp.weatherIcon)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding([.top, .leading], 10)
+                    .font(.title)
+                    .foregroundColor(Color("TextColor"))
+            }
+            
+            Divider()
+            
+            HStack{
+                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.low,
+                                                 forTemp: .Fahrenheit))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .font(.title)
+                    .foregroundColor(Color("TextColor"))
+                
+                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.hi,
+                                                 forTemp: .Fahrenheit))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .font(.title)
+                    .foregroundColor(Color("TextColor"))
+            }
+            
+            Divider()
+            
+            HStack{
+                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.low,
+                                                 forTemp: .Celcius))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .font(.title)
+                    .foregroundColor(Color("TextColor"))
+                
+                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.hi,
+                                                 forTemp: .Celcius))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .font(.title)
+                    .foregroundColor(Color("TextColor"))
             }
         }
+        Spacer()
     }
 }
 
