@@ -100,18 +100,20 @@ struct SmallView : View {
     var body: some View {
         VStack{
             HStack{
-                Text("Today")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding([.top, .leading], 10)
+                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.current, forTemp: .Fahrenheit))
                     .font(.body)
                     .foregroundColor(Color("TextColor"))
-                
-                Image(uiImage: hiLowTemp.weatherIcon)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding([.top, .leading], 10)
+                                
+                Image(uiImage: hiLowTemp.current.weatherIcon())
                     .font(.title)
                     .foregroundColor(Color("TextColor"))
+                
+                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.current,
+                                                 forTemp: .Celcius))
+                    .font(.body)
+                    .foregroundColor(Color("TextColor"))
             }
+            .padding([.leading, .trailing])
             
             Divider()
             
@@ -119,13 +121,13 @@ struct SmallView : View {
                 Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.low,
                                                  forTemp: .Fahrenheit))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(Color("TextColor"))
                 
                 Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.hi,
                                                  forTemp: .Fahrenheit))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(Color("TextColor"))
             }
             
@@ -135,17 +137,17 @@ struct SmallView : View {
                 Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.low,
                                                  forTemp: .Celcius))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(Color("TextColor"))
                 
                 Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.hi,
                                                  forTemp: .Celcius))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(Color("TextColor"))
             }
         }
-        Spacer()
+        .padding([.bottom, .top])
     }
 }
 
@@ -212,7 +214,15 @@ struct WeatherWidget: Widget {
 
 struct WeatherWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherWidgetEntryView(entry: WeatherEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Group{
+            WeatherWidgetEntryView(entry: WeatherEntry(date: Date(), configuration: ConfigurationIntent()))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            
+            WeatherWidgetEntryView(entry: WeatherEntry(date: Date(), configuration: ConfigurationIntent()))
+                .previewContext(WidgetPreviewContext(family: .systemMedium))
+            
+            WeatherWidgetEntryView(entry: WeatherEntry(date: Date(), configuration: ConfigurationIntent()))
+                .previewContext(WidgetPreviewContext(family: .systemLarge))
+        }
     }
 }

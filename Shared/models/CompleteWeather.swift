@@ -11,7 +11,7 @@ import UIKit
 
 public typealias HiLowTemp = (hi : Forecast.Period,
                               low : Forecast.Period,
-                              weatherIcon : UIImage)
+                              current : Forecast.Period)
 
 struct CompleteWeather : Codable{
     var fullForecast : Forecast?
@@ -20,7 +20,9 @@ struct CompleteWeather : Codable{
     var lastFetch = Date()
     var latitude : Double?
     var longitdue : Double?
-    
+}
+
+extension CompleteWeather{
     func getHourly(forDate date : Date, includingNext next : Int) -> [Forecast.Period]{
         if let hourlyPeriods = hourlyForecast?.periods{
             let period = hourlyPeriods.filter({
@@ -53,15 +55,17 @@ struct CompleteWeather : Codable{
         return nil
     }
     
-    #warning("find the real hi low here")
     func getHiLow(forDate date : Date) -> HiLowTemp?{
         if let hourlyPeriods = hourlyForecast?.periods{
-            let periods = hourlyPeriods.filter({
-                ($0.startTime ... $0.endTime).contains(date)
-            })
-            return (periods.first!,
-                    periods.last!,
-                    UIImage(systemName: "cloud")!)
+            let sortedByTemp = hourlyPeriods.sorted(by: { $0.temperatureValue < $1.temperatureValue })
+            
+            if let highTemp = sortedByTemp.last,
+               let lowTemp = sortedByTemp.first,
+               let currentPeriod = get(forDate: date){
+                return (highTemp, lowTemp, currentPeriod)
+            }else{
+                return nil
+            }
         }
         return nil
     }
