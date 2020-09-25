@@ -64,8 +64,13 @@ struct WeatherWidgetEntryView : View {
             case .systemMedium:
                 MediumView(periods: periodsToShow)
             case .systemLarge:
-                LargeView(currentPeriod: entry.coordinator.weather.get(forDate: Date())!,
-                          hourlyPeriods: entry.coordinator.weather.getHourly(forDate: Date(), includingNext: 5))
+                if let todayHiLow = entry.coordinator.weather.getHiLow(forDate: Date()){
+                    LargeView(hourlyPeriods: entry.coordinator.weather.getHourly(forDate: Date(), includingNext: 5),
+                              todayHiLow: todayHiLow)
+                }else{
+                    Text("shit broke")
+                }
+                
             @unknown default:
                 if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: Date()){
                     SmallView(hiLowTemp: hiLowTemps)
@@ -189,13 +194,30 @@ struct MediumView : View {
 }
 
 struct LargeView : View {
-    let currentPeriod : Forecast.Period
     let hourlyPeriods : [Forecast.Period]
-    
+    let todayHiLow : HiLowTemp
     let rowFormatter : RowFormattable.Type = RowFormatter.self
     
     var body: some View {
-        HeaderView(period: currentPeriod)
+        VStack{
+            SmallView(hiLowTemp: todayHiLow)
+            Spacer()
+
+            Divider()
+            
+            
+            Text(todayHiLow.current.shortForecast)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.title2)
+                .foregroundColor(Color("TextColor"))
+            
+            Divider()
+            Spacer()
+
+            HourlyView(periods: hourlyPeriods)
+                .padding([.leading, .trailing])
+        }
+        .padding([.top, .bottom])
     }
 }
 
