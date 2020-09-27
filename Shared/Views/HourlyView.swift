@@ -30,12 +30,12 @@ struct HourlyView: View {
                     if [ViewTypes.fahrenheit, ViewTypes.both].contains(selection){
                         Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
                     }
-
-                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
                     
                     if [ViewTypes.celsius, ViewTypes.both].contains(selection){
-                        Text(dateFormatter.string(from: period.startTime))
+                        Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
                     }
+                    
+                    Text(dateFormatter.string(from: period.startTime))
                     
                     if showWeatherIcon{
                         Image(uiImage: period.weatherIcon())
