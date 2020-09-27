@@ -7,6 +7,7 @@
 
 import Foundation
 import NationalWeatherService
+import SwiftUI
 
 extension Forecast.Period : Identifiable{
     public var id: Date {

@@ -62,6 +62,9 @@
 		1C38384A25193FFC00AD707B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C38384325193FFC00AD707B /* SceneDelegate.swift */; };
 		1C38384B25193FFC00AD707B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C38384325193FFC00AD707B /* SceneDelegate.swift */; };
 		1C3C40EE250D8483002D74BD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3C40ED250D8483002D74BD /* Constants.swift */; };
+		1C3EC9E52520ED6C005DF23B /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3EC9E42520ED6C005DF23B /* SmallWidgetView.swift */; };
+		1C3EC9EB2520ED76005DF23B /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3EC9EA2520ED76005DF23B /* MediumWidgetView.swift */; };
+		1C3EC9F12520ED80005DF23B /* LargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3EC9F02520ED80005DF23B /* LargeWidgetView.swift */; };
 		1C694A9025116F1D006FA9EE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C694A8F25116F1D006FA9EE /* WidgetKit.framework */; };
 		1C694A9225116F1D006FA9EE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C694A9125116F1D006FA9EE /* SwiftUI.framework */; };
 		1C694A9525116F1D006FA9EE /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C694A9425116F1D006FA9EE /* WeatherWidget.swift */; };
@@ -213,6 +216,9 @@
 		1C38384225193FFB00AD707B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C38384325193FFC00AD707B /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1C3C40ED250D8483002D74BD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1C3EC9E42520ED6C005DF23B /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
+		1C3EC9EA2520ED76005DF23B /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
+		1C3EC9F02520ED80005DF23B /* LargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetView.swift; sourceTree = "<group>"; };
 		1C694A8D25116F1D006FA9EE /* WeatherWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeatherWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C694A8F25116F1D006FA9EE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		1C694A9125116F1D006FA9EE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -331,6 +337,9 @@
 				1C694A9625116F1D006FA9EE /* WeatherWidget.intentdefinition */,
 				1C694A9725116F1D006FA9EE /* Assets.xcassets */,
 				1C694A9925116F1D006FA9EE /* Info.plist */,
+				1C3EC9E42520ED6C005DF23B /* SmallWidgetView.swift */,
+				1C3EC9EA2520ED76005DF23B /* MediumWidgetView.swift */,
+				1C3EC9F02520ED80005DF23B /* LargeWidgetView.swift */,
 			);
 			path = WeatherWidget;
 			sourceTree = "<group>";
@@ -677,6 +686,7 @@
 			files = (
 				1C7C0EB82513F53D002C37B6 /* SettingsView.swift in Sources */,
 				1C7C0EB72513F53D002C37B6 /* TopView.swift in Sources */,
+				1C3EC9EB2520ED76005DF23B /* MediumWidgetView.swift in Sources */,
 				1C694AA72511732A006FA9EE /* ForecastRowFormatter.swift in Sources */,
 				1C7C0E512513F475002C37B6 /* AppEnvironment.swift in Sources */,
 				1C1BB8F92513CB310079C243 /* CompleteWeather.swift in Sources */,
@@ -690,7 +700,9 @@
 				1C7C0EBD2513F53D002C37B6 /* FetchingView.swift in Sources */,
 				1C694AA325116FB7006FA9EE /* Network.swift in Sources */,
 				1C7C0E7F2513F52F002C37B6 /* LocationManager.swift in Sources */,
+				1C3EC9F12520ED80005DF23B /* LargeWidgetView.swift in Sources */,
 				1C694AAA25117366006FA9EE /* Constants.swift in Sources */,
+				1C3EC9E52520ED6C005DF23B /* SmallWidgetView.swift in Sources */,
 				1C06A14425150C9E00E547F3 /* ViewTypes.swift in Sources */,
 				1C7C0EB62513F53D002C37B6 /* ContentView.swift in Sources */,
 				1C694AB0251176FD006FA9EE /* Extensions.swift in Sources */,

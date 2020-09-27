@@ -11,6 +11,12 @@ import Intents
 import NationalWeatherService
 import CoreLocation
 
+enum NumberOfEntriesForSize : Int{
+    case small = 1
+    case medium = 3
+    case large = 5
+}
+
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> WeatherEntry {
         WeatherEntry(date: Date(), configuration: ConfigurationIntent())
@@ -25,8 +31,9 @@ struct Provider: IntentTimelineProvider {
         var entries: [WeatherEntry] = []
         
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        // use the max number of entries we can have
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
+        for hourOffset in 0 ..< NumberOfEntriesForSize.large.rawValue {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = WeatherEntry(date: entryDate, configuration: configuration)
             entries.append(entry)
@@ -40,7 +47,7 @@ struct Provider: IntentTimelineProvider {
 struct WeatherEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
-    let coordinator =  Coordinator<Network, PlistStorage, LocationManager>()
+    let coordinator =  AppEnvironment.Preview
     let rowFormatter : RowFormattable.Type = RowFormatter.self
 }
 
@@ -56,24 +63,24 @@ struct WeatherWidgetEntryView : View {
             
             switch family {
             case .systemSmall:
-                if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: Date()){
-                    SmallView(hiLowTemp: hiLowTemps)
+                if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: entry.date){
+                    SmallWidgetView(hiLowTemp: hiLowTemps)
                 }else{
                     Text("shit broke")
                 }
             case .systemMedium:
-                MediumView(periods: periodsToShow)
+                MediumWidgetView(periods: periodsToShow)
             case .systemLarge:
-                if let todayHiLow = entry.coordinator.weather.getHiLow(forDate: Date()){
-                    LargeView(hourlyPeriods: entry.coordinator.weather.getHourly(forDate: Date(), includingNext: 5),
+                if let todayHiLow = entry.coordinator.weather.getHiLow(forDate: entry.date){
+                    LargeWidgetView(hourlyPeriods: entry.coordinator.weather.getHourly(forDate: Date(), includingNext: 5),
                               todayHiLow: todayHiLow)
                 }else{
                     Text("shit broke")
                 }
                 
             @unknown default:
-                if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: Date()){
-                    SmallView(hiLowTemp: hiLowTemps)
+                if let hiLowTemps = entry.coordinator.weather.getHiLow(forDate: entry.date){
+                    SmallWidgetView(hiLowTemp: hiLowTemps)
                 }else{
                     Text("shit broke")
                 }
@@ -86,138 +93,15 @@ struct WeatherWidgetEntryView : View {
         
         switch sizeClass {
         case .systemSmall:
-            returnPeriods = Array(periods.prefix(upTo: 1))
+            returnPeriods = Array(periods.prefix(upTo: NumberOfEntriesForSize.small.rawValue))
         case .systemMedium:
-            returnPeriods = Array(periods.prefix(upTo: 3))
+            returnPeriods = Array(periods.prefix(upTo: NumberOfEntriesForSize.medium.rawValue))
         case .systemLarge:
-            returnPeriods = Array(periods.prefix(upTo: 6))
+            returnPeriods = Array(periods.prefix(upTo: NumberOfEntriesForSize.large.rawValue))
         @unknown default:
-            returnPeriods = Array(periods.prefix(upTo: 2))
+            returnPeriods = Array(periods.prefix(upTo: NumberOfEntriesForSize.small.rawValue))
         }
         return returnPeriods
-    }
-}
-
-struct SmallView : View {
-    let hiLowTemp : HiLowTemp
-    let rowFormatter : RowFormattable.Type = RowFormatter.self
-    
-    var body: some View {
-        VStack{
-            HStack{
-                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.current, forTemp: .Fahrenheit))
-                    .font(.body)
-                    .foregroundColor(Color("TextColor"))
-                                
-                Image(uiImage: hiLowTemp.current.weatherIcon())
-                    .font(.title)
-                    .foregroundColor(Color("TextColor"))
-                
-                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.current,
-                                                 forTemp: .Celcius))
-                    .font(.body)
-                    .foregroundColor(Color("TextColor"))
-            }
-            .padding([.leading, .trailing])
-            
-            Divider()
-            
-            HStack{
-                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.low,
-                                                 forTemp: .Fahrenheit))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title2)
-                    .foregroundColor(Color("TextColor"))
-                
-                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.hi,
-                                                 forTemp: .Fahrenheit))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title2)
-                    .foregroundColor(Color("TextColor"))
-            }
-            
-            Divider()
-            
-            HStack{
-                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.low,
-                                                 forTemp: .Celcius))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title2)
-                    .foregroundColor(Color("TextColor"))
-                
-                Text(rowFormatter.degreeToString(fromPeriod: hiLowTemp.hi,
-                                                 forTemp: .Celcius))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .font(.title2)
-                    .foregroundColor(Color("TextColor"))
-            }
-        }
-        .padding([.bottom, .top])
-    }
-}
-
-struct MediumView : View {
-    let periods : [Forecast.Period]
-    let rowFormatter : RowFormattable.Type = RowFormatter.self
-    var dateIntervalFormatter = DateIntervalFormatter(){
-        didSet{
-            dateIntervalFormatter.dateStyle = .short
-            dateIntervalFormatter.timeStyle = .medium
-        }
-    }
-    
-    var body: some View {
-        HStack{
-            ForEach(periods, id: \.id){ period in
-                VStack{
-                    Text(period.name ?? "")
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                        .multilineTextAlignment(.center)
-                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                    Image(uiImage: period.weatherIcon())
-                        .foregroundColor(Color("TextColor"))
-                    Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                    Text(period.shortForecast)
-                        .font(.body)
-                        .foregroundColor(Color("TextColor"))
-                }
-                Spacer()
-            }
-        }
-        .padding()
-    }
-}
-
-struct LargeView : View {
-    let hourlyPeriods : [Forecast.Period]
-    let todayHiLow : HiLowTemp
-    let rowFormatter : RowFormattable.Type = RowFormatter.self
-    
-    var body: some View {
-        VStack{
-            SmallView(hiLowTemp: todayHiLow)
-            Spacer()
-
-            Divider()
-            
-            
-            Text(todayHiLow.current.shortForecast)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .font(.title2)
-                .foregroundColor(Color("TextColor"))
-            
-            Divider()
-            Spacer()
-
-            HourlyView(periods: hourlyPeriods)
-                .padding([.leading, .trailing])
-        }
-        .padding([.top, .bottom])
     }
 }
 
@@ -226,7 +110,9 @@ struct WeatherWidget: Widget {
     let kind: String = "WeatherWidget"
     
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        IntentConfiguration(kind: kind,
+                            intent: ConfigurationIntent.self,
+                            provider: Provider()) { entry in
             WeatherWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Weather Widget")

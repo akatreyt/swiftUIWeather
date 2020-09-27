@@ -11,6 +11,7 @@ import NationalWeatherService
 struct HourlyView: View {
     let periods : [Forecast.Period]
     let rowFormatter : RowFormattable.Type = RowFormatter.self
+    var showWeatherIcon = true
     
     @AppStorage("viewType",
                 store: UserDefaults(suiteName: AppGroup.weather.rawValue))
@@ -29,10 +30,18 @@ struct HourlyView: View {
                     if [ViewTypes.fahrenheit, ViewTypes.both].contains(selection){
                         Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Fahrenheit))
                     }
+
                     Text(rowFormatter.degreeToString(fromPeriod: period, forTemp: .Celcius))
+                    
                     if [ViewTypes.celsius, ViewTypes.both].contains(selection){
                         Text(dateFormatter.string(from: period.startTime))
                     }
+                    
+                    if showWeatherIcon{
+                        Image(uiImage: period.weatherIcon())
+                            .foregroundColor(Color("TextColor"))
+                    }
+                    
                 }
                 if period.startTime != periods.last?.startTime{
                     Spacer()
