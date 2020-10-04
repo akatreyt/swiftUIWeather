@@ -39,6 +39,7 @@ struct HourlyView: View {
                     
                     if showWeatherIcon{
                         Image(uiImage: period.weatherIcon())
+                            .renderingMode(.template)
                             .foregroundColor(Color("TextColor"))
                     }
                     

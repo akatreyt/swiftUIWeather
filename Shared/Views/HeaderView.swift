@@ -22,6 +22,7 @@ struct HeaderView: View {
             Text(period.name!)
             
             Image(uiImage: period.weatherIcon())
+                .renderingMode(.template)
                 .font(.largeTitle)
                 .foregroundColor(Color("HeaderTextColor"))
             

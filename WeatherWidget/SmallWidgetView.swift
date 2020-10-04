@@ -20,6 +20,7 @@ struct SmallWidgetView : View {
                     .foregroundColor(Color("TextColor"))
                                 
                 Image(uiImage: hiLowTemp.current.weatherIcon())
+                    .renderingMode(.template)
                     .font(.title)
                     .foregroundColor(Color("TextColor"))
                 

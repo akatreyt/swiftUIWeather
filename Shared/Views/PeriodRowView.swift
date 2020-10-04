@@ -22,6 +22,7 @@ struct PeriodRowView: View {
             VStack{
                 Text(period.name!)
                 Image(uiImage: period.weatherIcon())
+                    .renderingMode(.template)
                     .foregroundColor(Color("TextColor"))
                 
             }

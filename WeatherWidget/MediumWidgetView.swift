@@ -37,6 +37,7 @@ struct MediumWidgetView : View {
                             .foregroundColor(Color("TextColor"))
                         
                         Image(uiImage: period.weatherIcon())
+                            .renderingMode(.template)
                             .foregroundColor(Color("TextColor"))
                         
                         Text(period.shortForecast)
